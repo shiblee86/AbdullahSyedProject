@@ -14,7 +14,7 @@ import cucumber.api.testng.AbstractTestNGCucumberTests;
 	plugin = {"pretty", "html:target","json:target/cucumber.json",
 		"com.cucumber.listener.ExtentCucumberFormatter:target/Cucumber_Extents_report.html"},
 		
-    features = {"src/mainresources/LoginTestCaseScenario.feature"},
+    features = {"src/main/resources/LoginTestCaseScenario.feature"},
     glue = {"com.stepdef"},
   
   monochrome=true,

@@ -8,6 +8,7 @@ import com.newpagefactory.PageFactoryLoginXpath;
 import com.util.Highlighter;
 import com.util.ScreenShots;
 
+import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -18,8 +19,8 @@ public class StepDefForAmazon {
 	PageFactoryLoginXpath obj;
 	Highlighter color;
 
-	@Given("User is able to launch any browser")
-	public void user_is_able_to_launch_any_browser() {
+	@Given("^User is able to launch any browser$")
+	public void user_is_able_to_launch_any_browser() throws Throwable {
 		// Operating System
 		String os = System.getProperty("os.name").toLowerCase();
 
@@ -40,43 +41,43 @@ public class StepDefForAmazon {
 		driver = new ChromeDriver();
 		obj = PageFactory.initElements(driver, PageFactoryLoginXpath.class);
 		color = new Highlighter(driver);
-		driver.manage().window().maximize();
+		driver.manage().window().fullscreen();
 	}
 
-	@Given("User is able to navigate to the url")
-	public void user_is_able_to_navigate_to_the_url() {
+	@Given("^User is able to navigate to the url$")
+	public void user_is_able_to_navigate_to_the_url() throws Throwable {
 		driver.navigate().to(obj.getURL());
 	}
 
-	@When("User clicks on Account & List")
-	public void user_clicks_on_Account_List() {
+	@When("^User clicks on Account & List$")
+	public void user_clicks_on_Account_List() throws Throwable {
 		color.drawBorder(obj.getMyAccount(), "green");
 		ScreenShots.captureScreenShot(driver, "LoginPage");
 		obj.getMyAccount().click();
 	}
 
-	@When("User enters userName")
-	public void user_enters_userName() {
+	@When("^User enters userName$")
+	public void user_enters_userName() throws Throwable {
 		color.drawBorder(obj.getEmailAddress(), "red");
 		obj.getEmailAddress().sendKeys(obj.getUserName());
 	}
 
-	@When("User enters password")
-	public void user_enters_password() {
+	@When("^User enters password$")
+	public void user_enters_password() throws Throwable {
 		color.drawBorder(obj.getPassword(), "blue");
 		obj.getPassword().sendKeys(obj.getPass());
 	}
 
-	@When("User clicks on SignIn button")
-	public void user_clicks_on_SignIn_button() {
+	@When("^User clicks on SignIn button$")
+	public void user_clicks_on_SignIn_button() throws Throwable {
 		color.drawBorder(obj.getSignIn(), "cyan");
 		ScreenShots.captureScreenShot(driver, "Screenshot Email and password input fields");
 		obj.getSignIn().click();
 		System.out.println("Logged into my account");
 	}
 
-	@Then("user should be able to see {string}")
-	public void user_should_be_able_to_see(String string) {
+	@Then("^user should be able to see \"([^\"]*)\"$")
+	public void user_should_be_able_to_see(String arg1) throws Throwable {
 		color.drawBorder(obj.getUserNameAfterLogin(), "pink");
 		if (obj.getUserNameAfterLogin().getText().equalsIgnoreCase("Hi, Syed")) {
 			System.out.println("Login Verification Passed");
@@ -86,8 +87,8 @@ public class StepDefForAmazon {
 		ScreenShots.captureScreenShot(driver, "Login Verification");
 	}
 
-	@Then("user should be able to close the browser")
-	public void user_should_be_able_to_close_the_browser() {
+	@Then("^user should be able to close the browser$")
+	public void user_should_be_able_to_close_the_browser() throws Throwable {
 		driver.quit();
 	}
 

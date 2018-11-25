@@ -1,8 +1,19 @@
 package com.genericlibrary;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import com.newpagefactory.PageFactoryLoginXpath;
@@ -14,6 +25,10 @@ public class BaseAmazonTestCases {
 	WebDriver driver;
 	PageFactoryLoginXpath obj;
 	Highlighter color;
+	JavascriptExecutor js = (JavascriptExecutor) driver;
+	Actions ac;
+	List<String> productList = new ArrayList<>();
+	List<String> pricePerItemTable = new ArrayList<>();
 
 	public void getSetup() {
 		// Operating System
@@ -76,6 +91,95 @@ public class BaseAmazonTestCases {
 		}
 		System.out.println("Loging Validation PASSED");
 		ScreenShots.captureScreenShot(driver, "Login Verification");
+
+	}
+
+	// Search for ihone
+	public void searchForItems() {
+		obj.searchForItems().sendKeys("iphone");
+		obj.searchForItems().submit();
+	}
+
+	// Sort by price high to low
+	public void sortItemsByHighToLowPrice() {
+		Select sortDropDown = new Select(obj.getSortBy());
+		sortDropDown.selectByValue("price-desc-rank");
+	}
+
+	// Find total page number
+	public void getTotalPageNumber() {
+		System.out.println("Total number of pages with class '.pagnLink' :: " + obj.getTotalPageCount().size());
+		for (int j = 0; j < obj.getTotalPageCount().size(); j++) {
+			color.drawBorder(obj.getTotalPageCount().get(j), "cyan");
+		}
+		System.out.println("-----------------------------------------------------------------------------------------");
+		System.err.println("The last page number is :: " + obj.getLastPage().getText());
+		System.out.println("-----------------------------------------------------------------------------------------");
+	}
+
+	// Find current page number
+	public void getCurrentPage() {
+		// ac.moveToElement(obj.getCurrentPage()).build().perform();
+		color.drawBorder(obj.getCurrentPage(), "green");
+		System.out.println("The current page number is " + obj.getCurrentPage().getText());
+		System.out.println("-----------------------------------------------------------------------------------------");
+	}
+
+	// Find all product and count
+	public void findAllItemsOnPageOne() {
+		System.out.println("ITEMS DISPLAYED ON CURRENT PAGE");
+		System.out.println("-----------------------------------------------------------------------------------------");
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions.visibilityOf(obj.findAllItemsPageOne().get(0)));
+		/*
+		 * for (int product = 0; product < obj.findAllItemsPageOne().size(); product++)
+		 * { // color.drawBorder(obj.findAllItemsPageOne().get(product), "organge");
+		 * System.out.println(obj.findAllItemsPageOne().get(product).getText());
+		 * System.out.println(
+		 * "|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+		 * );
+		 */
+		for (WebElement productName : obj.findAllItemsPageOne()) {
+			productList.add(productName.getText());
+
+		}
+		for (int printProductName = 0; printProductName < productList.size(); printProductName++) {
+			System.out.println(productList.get(printProductName));
+			System.out.println("-------------------------------------------------------------------------------------");
+		}
+		System.out.println("Total number of items displayed on page :: " + productList.size());
+		System.out.println("-------------------------------------------------------------------------------------");
+		System.out.println("Total product count on Site message ----------> " + obj.getTotalProductCount().getText());
+		System.out.println("========================================================================================");
+
+	}
+
+	// Find out total count of a specific product
+	public void findAllOccuranceOfASpecifProduct() {
+		int count = 0;
+		List<Integer> totalForSpecificProduct = new ArrayList<>();
+		for (int a = 0; a < productList.size(); a++) {
+			if (productList.get(a).contains("iPhone X")) {
+				count++;
+				totalForSpecificProduct.add(count);
+			}
+		}
+		System.out.println("-------------------------------------------------------------------------------------");
+		System.out.println("Total number of specific product on Page 1 :: " + totalForSpecificProduct.size());
+		System.out.println("Specific Products :: _________________________________________________________________");
+
+		Map<String, Long> counts = productList.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
+		System.out.println("--------------Items with count Below ---------------------------------------");
+		counts.forEach((key, value) -> System.out.println(key + ":" + value));
+		System.out.println("-----------------------------------------------------");
+	}
+
+	public void getHighAndLowPrices() {
+		int count = 0;
+		for (int i = 0; i < obj.getPricePerItem().size(); i++) {
+			count++;
+
+		}
 
 	}
 

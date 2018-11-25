@@ -1,5 +1,7 @@
 package com.newpagefactory;
 
+import java.util.List;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -23,6 +25,83 @@ public class PageFactoryLoginXpath {
 
 	@FindBy(xpath = "//*[contains(text(),'Hi, Syed')]")
 	private WebElement userNameAfterLogin;
+	
+	@FindBy(css = "#twotabsearchtextbox")
+	private WebElement searchBox;
+	
+	@FindBy(css = "#sort")
+	private WebElement sortBy;
+	
+	@FindBy(css="#s-result-count")
+	private WebElement productCountResult;
+	
+	public WebElement getProductCountResult() {
+		return productCountResult;
+	}
+	
+	public WebElement getSortBy() {
+		return sortBy;
+	}
+	
+	@FindBy(css="//*[contains(@id,'pagnNextString')]")
+	private WebElement nextButton;
+	
+	public WebElement getNextButton() {
+		return nextButton;
+	}
+	
+	@FindBy(css=".sx-price-whole")
+	private WebElement priceOfItem;
+	
+	public WebElement getPriceOfItem() {
+		return priceOfItem;
+	}
+	
+	@FindBy(css=".s-access-title")
+	private List<WebElement>allItemsPageOne;
+	
+	@FindBy(css=".pagnDisabled")
+	private WebElement lastPage;
+	
+	@FindBy(xpath="//*[contains(@class,'pagnLink')]")
+	private List<WebElement> totalPageCount;
+	
+	public List<WebElement> getTotalPageCount() {
+		return totalPageCount;
+	}
+	
+	@FindBy(xpath="//*[@class='pagnCur']")
+	private WebElement currentPage;
+	
+	@FindBy(xpath="//*[@id='s-result-count']")
+	private WebElement totalProductCount;
+	
+	@FindBy(css=".sx-price-whole")
+	private List<WebElement> pricePerItem;
+	
+	public List<WebElement> getPricePerItem() {
+		return pricePerItem;
+	}
+	
+	public WebElement getTotalProductCount() {
+		return totalProductCount;
+	}
+	
+	public WebElement getCurrentPage() {
+		return currentPage;
+	}
+	
+	public WebElement getLastPage() {
+		return lastPage;
+	}
+	
+	public List<WebElement> findAllItemsPageOne() {
+		return allItemsPageOne;
+	}
+	
+	public WebElement searchForItems() {
+		return searchBox;
+	}
 
 	public String getURL() {
 		return URL;
