@@ -113,22 +113,23 @@ public class BaseAmazonTestCases {
 			color.drawBorder(obj.getTotalPageCount().get(j), "cyan");
 		}
 		System.out.println("-----------------------------------------------------------------------------------------");
-		System.err.println("The last page number is ::\n" + obj.getLastPage().getText());
-		System.out.println("-----------------------------------------------------------------------------------------");
+		System.err.println("The last page number is ::\n" + obj.getLastPage().getText()
+				+ "\n-----------------------------------------------------------------------------------------");
 	}
 
 	// Find current page number
 	public void getCurrentPage() {
 		// ac.moveToElement(obj.getCurrentPage()).build().perform();
 		color.drawBorder(obj.getCurrentPage(), "green");
-		System.out.println("The current page number is\n" + obj.getCurrentPage().getText());
-		System.out.println("-----------------------------------------------------------------------------------------");
+		System.out.println("The current page number is\n" + obj.getCurrentPage().getText()
+				+ "\n-----------------------------------------------------------------------------------------");
+
 	}
 
 	// Find all product and count
 	public void findAllItemsOnPageOne() {
-		System.out.println("ITEMS DISPLAYED ON CURRENT PAGE");
-		System.out.println("-----------------------------------------------------------------------------------------");
+		System.out.println(
+				"ITEMS DISPLAYED ON CURRENT PAGE\n-----------------------------------------------------------------------------------------");
 
 		driver.navigate().refresh();
 		WebDriverWait wait = new WebDriverWait(driver, 30);
@@ -152,54 +153,72 @@ public class BaseAmazonTestCases {
 	// Find out total count of a specific product
 	public void findAllOccuranceOfASpecifProduct() {
 		List<String> totalForSpecificProduct = new ArrayList<>();
+
 		for (int a = 0; a < productList.size(); a++) {
 			if (productList.get(a).contains("iPhone X")) {
 				totalForSpecificProduct.add(productList.get(a));
 			}
 		}
-		for (int a = 0; a < totalForSpecificProduct.size(); a++) {
-			System.out.println("Specific Product :: " + totalForSpecificProduct.get(a));
+		System.out.println("Specific Product ::\n ============================================================");
+		for (int i = 0; i < totalForSpecificProduct.size(); i++) {
+			System.out.println(totalForSpecificProduct.get(i)
+					+ "\n..............................................................................");
 		}
 		System.out.println("/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+");
-		System.out.println("Total number of Specific items ::\n" + totalForSpecificProduct.size());
-		System.out.println("Specific Products :: +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
-
+		System.out.println("Total number of Specific items ::\n" + totalForSpecificProduct.size()
+				+ "\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
 	}
 
 	public void getHighAndLowPrices() {
 
 		// Printing Dollar value in String --> Price has a comma to show thousandth
 		// place
-		List<String> priceInDollar = new ArrayList<>();
-		for (WebElement dollar : obj.getDollarPriceOfItem()) {
-			priceInDollar.add(dollar.getText());
-		}
-		System.out.println("Price of items in Dollar - String ::\n" + priceInDollar);
-		System.out.println("/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+");
-
-		// Printing Cents value in string --->
-		List<String> priceInCents = new ArrayList<>();
-		for (WebElement cents : obj.getCentsPriceOfItem()) {
-			priceInCents.add(cents.getText());
-		}
-		System.out.println("Price of items in Cent - String ::\n" + priceInCents);
-		System.out.println("Specific Products :: +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
-
+		/*
+		 * List<String> priceInDollar = new ArrayList<>(); for (WebElement dollar :
+		 * obj.getDollarPriceOfItem()) { priceInDollar.add(dollar.getText()); }
+		 * System.out.
+		 * println("Price of items in Dollar - String================================================"
+		 * ); for(int i=0; i<priceInDollar.size(); i++) {
+		 * System.out.println(priceInDollar.get(i)); } System.out.println(
+		 * "/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+"
+		 * );
+		 * 
+		 * // Printing Cents value in string ---> List<String> priceInCents = new
+		 * ArrayList<>(); for (WebElement cents : obj.getCentsPriceOfItem()) {
+		 * priceInCents.add(cents.getText()); }
+		 * 
+		 * System.out.
+		 * println("Price of items in Cent - String=================================================="
+		 * ); for(int j=0;j<priceInCents.size();j++) {
+		 * System.out.println(priceInCents.get(j)); } System.out.
+		 * println("Specific Products :: +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
+		 * );
+		 */
 		// Converting Dollar value from WebElement to float
+
 		List<Float> storeDollarValue = new ArrayList<>();
+
 		for (WebElement dollarPrice : obj.getDollarPriceOfItem()) {
 			storeDollarValue.add(Float.parseFloat(dollarPrice.getText().trim().replaceAll(",", "")));
 		}
-		System.out.println("Price of item in Dollar --> Float ::\n" + storeDollarValue);
-		System.out.println("Specific Products :: +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+
+		System.out.println("Price of item in Dollar --> Float ::\n++++++++++++++++++++++++++++++++++++++++++++");
+		for (int j = 0; j < storeDollarValue.size(); j++) {
+			System.out.println(storeDollarValue.get(j) + "\n.....");
+		}
+		System.out.println("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
 
 		// Converting Cent value from WebElement to float
 		List<Float> storeCentValue = new ArrayList<>();
+
+		System.out.println("Price of item in Cent --> Flaot ::\n ++++++++++++++++++++++++++++++++++++++++++++++++");
 		for (WebElement centPrice : obj.getCentsPriceOfItem()) {
 			storeCentValue.add((Float.parseFloat(centPrice.getText().trim().replaceAll(",", "")) / 100));
 		}
-		System.out.println("Price of item in Cents --> Float ::\n" + storeCentValue);
-		System.out.println("Specific Products :: +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+		for (int i = 0; i < storeCentValue.size(); i++) {
+			System.out.println(storeCentValue.get(i) + "\n.....");
+		}
+		System.out.println("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
 
 		List<Float> itemPrice = new ArrayList<>();
 		for (int p = 0; p < storeDollarValue.size(); p++) {
@@ -213,12 +232,12 @@ public class BaseAmazonTestCases {
 			itemPrice.add(dollarValue + centValue);
 		}
 		float maxPrice = (float) Collections.max(itemPrice);
-		System.out.println("The highest price is ::\n" + maxPrice);
-		System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
+		System.out.println("The highest price is ::\n" + maxPrice + "\n......");
 
 		float minPrice = (float) Collections.min(itemPrice);
 		System.out.println("The lowest price is ::\n" + minPrice);
-		System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
+		System.out.println(
+				"*****************************************************************************************************");
 	}
 
 	public void tearDown() {
