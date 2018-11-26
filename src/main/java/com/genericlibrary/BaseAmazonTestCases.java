@@ -108,12 +108,12 @@ public class BaseAmazonTestCases {
 
 	// Find total page number
 	public void getTotalPageNumber() {
-		System.out.println("Total number of pages with class '.pagnLink' :: " + obj.getTotalPageCount().size());
+		System.out.println("Total number of pages with class '.pagnLink' ::\n" + obj.getTotalPageCount().size());
 		for (int j = 0; j < obj.getTotalPageCount().size(); j++) {
 			color.drawBorder(obj.getTotalPageCount().get(j), "cyan");
 		}
 		System.out.println("-----------------------------------------------------------------------------------------");
-		System.err.println("The last page number is :: " + obj.getLastPage().getText());
+		System.err.println("The last page number is ::\n" + obj.getLastPage().getText());
 		System.out.println("-----------------------------------------------------------------------------------------");
 	}
 
@@ -121,7 +121,7 @@ public class BaseAmazonTestCases {
 	public void getCurrentPage() {
 		// ac.moveToElement(obj.getCurrentPage()).build().perform();
 		color.drawBorder(obj.getCurrentPage(), "green");
-		System.out.println("The current page number is " + obj.getCurrentPage().getText());
+		System.out.println("The current page number is\n" + obj.getCurrentPage().getText());
 		System.out.println("-----------------------------------------------------------------------------------------");
 	}
 
@@ -129,12 +129,13 @@ public class BaseAmazonTestCases {
 	public void findAllItemsOnPageOne() {
 		System.out.println("ITEMS DISPLAYED ON CURRENT PAGE");
 		System.out.println("-----------------------------------------------------------------------------------------");
-		
+
 		driver.navigate().refresh();
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions.visibilityOf(obj.findAllItemsPageOne().get(0)));
-		
-		 /* for (int product = 0; product < obj.findAllItemsPageOne().size(); product++)
+
+		/*
+		 * for (int product = 0; product < obj.findAllItemsPageOne().size(); product++)
 		 * { // color.drawBorder(obj.findAllItemsPageOne().get(product), "organge");
 		 * System.out.println(obj.findAllItemsPageOne().get(product).getText());
 		 * System.out.println(
@@ -147,34 +148,36 @@ public class BaseAmazonTestCases {
 		}
 		for (int printProductName = 0; printProductName < productList.size(); printProductName++) {
 			System.out.println(productList.get(printProductName));
-			System.out.println("-------------------------------------------------------------------------------------");
+			System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
 		}
-		System.out.println("Total number of items displayed on page :: " + productList.size());
+		System.out.println("Total number of items displayed on page ::\n" + productList.size());
 		System.out.println("-------------------------------------------------------------------------------------");
-		System.out.println("Total product count on Site message ----------> " + obj.getTotalProductCount().getText());
+		System.out.println("Total product count on Site message ---------->\n" + obj.getTotalProductCount().getText());
 		System.out.println("========================================================================================");
 
 	}
 
 	// Find out total count of a specific product
 	public void findAllOccuranceOfASpecifProduct() {
-		int count = 0;
-		List<Integer> totalForSpecificProduct = new ArrayList<>();
+		List<String> totalForSpecificProduct = new ArrayList<>();
 		for (int a = 0; a < productList.size(); a++) {
 			if (productList.get(a).contains("iPhone X")) {
-				count++;
-				totalForSpecificProduct.add(count);
+				totalForSpecificProduct.add(productList.get(a));
 			}
 		}
-		System.out.println("Total number of specific product on Page 1 :: " + totalForSpecificProduct.size());
+		for (int a = 0; a < totalForSpecificProduct.size(); a++) {
+			System.out.println("Specific Product :: " + totalForSpecificProduct.get(a));
+		}
+		System.out.println("/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+");
+		System.out.println("Total number of Specific items ::\n" + totalForSpecificProduct.size());
 		System.out.println("Specific Products :: +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
 
 	}
 
 	public void getHighAndLowPrices() {
-		int count = 0;
+
 		for (int i = 0; i < obj.getPricePerItem().size(); i++) {
-			count++;
+
 
 		}
 
