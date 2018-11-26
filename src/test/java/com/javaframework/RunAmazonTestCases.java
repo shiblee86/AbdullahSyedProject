@@ -15,6 +15,8 @@ public class RunAmazonTestCases {
 		obj.getCurrentPage();
 		obj.findAllItemsOnPageOne();
 		obj.findAllOccuranceOfASpecifProduct();
+		obj.getHighAndLowPrices();
+		obj.tearDown();
 
 
 

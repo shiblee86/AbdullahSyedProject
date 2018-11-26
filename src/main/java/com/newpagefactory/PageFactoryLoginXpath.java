@@ -51,10 +51,17 @@ public class PageFactoryLoginXpath {
 	}
 	
 	@FindBy(css=".sx-price-whole")
-	private WebElement priceOfItem;
+	private List<WebElement> dollarPriceOfItem;
 	
-	public WebElement getPriceOfItem() {
-		return priceOfItem;
+	public List<WebElement> getDollarPriceOfItem() {
+		return dollarPriceOfItem;
+	}
+	
+	@FindBy(css=".sx-price-fractional")
+	private List<WebElement> centPriceOfItem;
+	
+	public List<WebElement> getCentsPriceOfItem(){
+		return centPriceOfItem;
 	}
 	
 	@FindBy(css=".s-access-title")

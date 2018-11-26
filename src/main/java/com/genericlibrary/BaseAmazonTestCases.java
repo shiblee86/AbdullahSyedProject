@@ -2,8 +2,6 @@ package com.genericlibrary;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -19,6 +17,8 @@ import org.testng.Assert;
 import com.newpagefactory.PageFactoryLoginXpath;
 import com.util.Highlighter;
 import com.util.ScreenShots;
+
+import edu.emory.mathcs.backport.java.util.Collections;
 
 public class BaseAmazonTestCases {
 
@@ -134,14 +134,6 @@ public class BaseAmazonTestCases {
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions.visibilityOf(obj.findAllItemsPageOne().get(0)));
 
-		/*
-		 * for (int product = 0; product < obj.findAllItemsPageOne().size(); product++)
-		 * { // color.drawBorder(obj.findAllItemsPageOne().get(product), "organge");
-		 * System.out.println(obj.findAllItemsPageOne().get(product).getText());
-		 * System.out.println(
-		 * "|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
-		 * );
-		 */
 		for (WebElement productName : obj.findAllItemsPageOne()) {
 			productList.add(productName.getText());
 
@@ -176,11 +168,57 @@ public class BaseAmazonTestCases {
 
 	public void getHighAndLowPrices() {
 
-		for (int i = 0; i < obj.getPricePerItem().size(); i++) {
-
-
+		// Printing Dollar value in String --> Price has a comma to show thousandth
+		// place
+		List<String> priceInDollar = new ArrayList<>();
+		for (WebElement dollar : obj.getDollarPriceOfItem()) {
+			priceInDollar.add(dollar.getText());
 		}
+		System.out.println("Price of items in Dollar - String ::\n" + priceInDollar);
+		System.out.println("/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+");
 
+		// Printing Cents value in string --->
+		List<String> priceInCents = new ArrayList<>();
+		for (WebElement cents : obj.getCentsPriceOfItem()) {
+			priceInCents.add(cents.getText());
+		}
+		System.out.println("Price of items in Cent - String ::\n" + priceInCents);
+		System.out.println("Specific Products :: +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+
+		// Converting Dollar value from WebElement to float
+		List<Float> storeDollarValue = new ArrayList<>();
+		for (WebElement dollarPrice : obj.getDollarPriceOfItem()) {
+			storeDollarValue.add(Float.parseFloat(dollarPrice.getText().trim().replaceAll(",", "")));
+		}
+		System.out.println("Price of item in Dollar --> Float ::\n" + storeDollarValue);
+		System.out.println("Specific Products :: +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+
+		// Converting Cent value from WebElement to float
+		List<Float> storeCentValue = new ArrayList<>();
+		for (WebElement centPrice : obj.getCentsPriceOfItem()) {
+			storeCentValue.add((Float.parseFloat(centPrice.getText().trim().replaceAll(",", "")) / 100));
+		}
+		System.out.println("Price of item in Cents --> Float ::\n" + storeCentValue);
+		System.out.println("Specific Products :: +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+
+		List<Float> itemPrice = new ArrayList<>();
+		for (int p = 0; p < storeDollarValue.size(); p++) {
+			float dollarValue = storeDollarValue.get(p);
+			float centValue;
+			if (storeCentValue.get(p) != null) {
+				centValue = storeCentValue.get(p);
+			} else {
+				centValue = 0.0f;
+			}
+			itemPrice.add(dollarValue + centValue);
+		}
+		float maxPrice = (float) Collections.max(itemPrice);
+		System.out.println("The highest price is ::\n" + maxPrice);
+		System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
+
+		float minPrice = (float) Collections.min(itemPrice);
+		System.out.println("The lowest price is ::\n" + minPrice);
+		System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
 	}
 
 	public void tearDown() {
