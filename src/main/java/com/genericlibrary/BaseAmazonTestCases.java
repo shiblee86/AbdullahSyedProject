@@ -52,7 +52,7 @@ public class BaseAmazonTestCases {
 		obj = PageFactory.initElements(driver, PageFactoryLoginXpath.class);
 		color = new Highlighter(driver);
 		driver.navigate().to(obj.getURL());
-		driver.manage().window().fullscreen();
+		driver.manage().window().maximize();
 	}
 
 	public void getLogin() {
@@ -129,10 +129,12 @@ public class BaseAmazonTestCases {
 	public void findAllItemsOnPageOne() {
 		System.out.println("ITEMS DISPLAYED ON CURRENT PAGE");
 		System.out.println("-----------------------------------------------------------------------------------------");
+		
+		driver.navigate().refresh();
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions.visibilityOf(obj.findAllItemsPageOne().get(0)));
-		/*
-		 * for (int product = 0; product < obj.findAllItemsPageOne().size(); product++)
+		
+		 /* for (int product = 0; product < obj.findAllItemsPageOne().size(); product++)
 		 * { // color.drawBorder(obj.findAllItemsPageOne().get(product), "organge");
 		 * System.out.println(obj.findAllItemsPageOne().get(product).getText());
 		 * System.out.println(
@@ -164,14 +166,9 @@ public class BaseAmazonTestCases {
 				totalForSpecificProduct.add(count);
 			}
 		}
-		System.out.println("-------------------------------------------------------------------------------------");
 		System.out.println("Total number of specific product on Page 1 :: " + totalForSpecificProduct.size());
-		System.out.println("Specific Products :: _________________________________________________________________");
+		System.out.println("Specific Products :: +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
 
-		Map<String, Long> counts = productList.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
-		System.out.println("--------------Items with count Below ---------------------------------------");
-		counts.forEach((key, value) -> System.out.println(key + ":" + value));
-		System.out.println("-----------------------------------------------------");
 	}
 
 	public void getHighAndLowPrices() {
