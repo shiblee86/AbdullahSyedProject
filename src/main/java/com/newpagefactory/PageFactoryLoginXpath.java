@@ -205,7 +205,7 @@ public class PageFactoryLoginXpath {
 		return stateDropdownButton;
 	}
 	
-	@FindBy(xpath="//*[contains(@class,'a-list-link')]")
+	@FindBy(xpath="//*[contains(@class,'a-list-link')]//li")
 	private List<WebElement> stateList;
 	
 	public List<WebElement> getStateList() {

@@ -217,7 +217,6 @@ public class BaseAmazonTestCases {
 		sortDropDown.selectByValue("price-asc-rank");
 		Thread.sleep(6000);
 	}
-	
 
 	// Adding an item to the cart
 	public void addAnItemToCart() {
@@ -259,10 +258,11 @@ public class BaseAmazonTestCases {
 		for (WebElement selectState : obj.getStateList()) {
 			System.out.println(selectState.getText());
 		}
-		
+		System.out.println(obj.getStateList().size());
+
 		for (WebElement selectState : obj.getStateList()) {
 			Thread.sleep(1000);
-			if (selectState.getText().equals("NY")) {
+			if (selectState.getText().equalsIgnoreCase("NY")) {
 				selectState.click();
 			}
 		}
