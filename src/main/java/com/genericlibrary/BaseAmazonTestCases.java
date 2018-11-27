@@ -255,10 +255,12 @@ public class BaseAmazonTestCases {
 		obj.getDrLicenseNumber().sendKeys(obj.getDriverLincenseInt());
 		obj.getStateDropdown().click();
 
+		/*
 		for (WebElement selectState : obj.getStateList()) {
 			System.out.println(selectState.getText());
 		}
 		System.out.println(obj.getStateList().size());
+		*/
 
 		for (WebElement selectState : obj.getStateList()) {
 			Thread.sleep(1000);
@@ -266,10 +268,9 @@ public class BaseAmazonTestCases {
 				selectState.click();
 			}
 		}
-		Thread.sleep(6000);
-		obj.getAddThisCheckingAccount();
+		obj.getAddThisCheckingAccount().click();
 		if (obj.getPaymentFailureValidationMessage().getText().equalsIgnoreCase("There was a problem")) {
-			System.out.println("Adding payment failed");
+			System.out.println("Adding payment failed. Test Passed.");
 		}
 
 		// Now you are in the popup window, perform necessary actions here

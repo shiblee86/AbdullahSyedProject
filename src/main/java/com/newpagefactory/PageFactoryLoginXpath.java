@@ -205,14 +205,14 @@ public class PageFactoryLoginXpath {
 		return stateDropdownButton;
 	}
 	
-	@FindBy(xpath="//*[contains(@class,'a-list-link')]//li")
+	@FindBy(xpath="//*[contains(@class,'a-list-link')]//li//a")
 	private List<WebElement> stateList;
 	
 	public List<WebElement> getStateList() {
 		return stateList;
 	}
 	
-	@FindBy(xpath="//*[contains(text(),'Add this checking account')]")
+	@FindBy(xpath="(//*[contains(@class,'a-button-input')])[16]")
 	private WebElement addThisCheckingAccount;
 	
 	public WebElement getAddThisCheckingAccount() {
