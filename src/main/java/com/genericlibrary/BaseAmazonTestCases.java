@@ -1,9 +1,11 @@
 package com.genericlibrary;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
-import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -25,10 +27,9 @@ public class BaseAmazonTestCases {
 	WebDriver driver;
 	PageFactoryLoginXpath obj;
 	Highlighter color;
-	JavascriptExecutor js = (JavascriptExecutor) driver;
-	Actions ac;
 	List<String> productList = new ArrayList<>();
 	List<String> pricePerItemTable = new ArrayList<>();
+	Actions action;
 
 	public void getSetup() {
 		// Operating System
@@ -94,14 +95,14 @@ public class BaseAmazonTestCases {
 
 	}
 
-	// Search for ihone
-	public void searchForItems() {
-		obj.searchForItems().sendKeys("iphone");
+	// Search for item
+	public void searchForItems(String productname) {
+		obj.searchForItems().sendKeys(productname);
 		obj.searchForItems().submit();
 	}
 
 	// Sort by price high to low
-	public void sortItemsByHighToLowPrice() {
+	public void sortByHighToLowPrice() {
 		Select sortDropDown = new Select(obj.getSortBy());
 		sortDropDown.selectByValue("price-desc-rank");
 	}
@@ -123,21 +124,19 @@ public class BaseAmazonTestCases {
 		color.drawBorder(obj.getCurrentPage(), "green");
 		System.out.println("The current page number is\n" + obj.getCurrentPage().getText()
 				+ "\n-----------------------------------------------------------------------------------------");
-
 	}
 
 	// Find all product and count
 	public void findAllItemsOnPageOne() {
 		System.out.println(
 				"ITEMS DISPLAYED ON CURRENT PAGE\n-----------------------------------------------------------------------------------------");
-
 		driver.navigate().refresh();
+
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions.visibilityOf(obj.findAllItemsPageOne().get(0)));
 
 		for (WebElement productName : obj.findAllItemsPageOne()) {
 			productList.add(productName.getText());
-
 		}
 		for (int printProductName = 0; printProductName < productList.size(); printProductName++) {
 			System.out.println(productList.get(printProductName));
@@ -147,15 +146,13 @@ public class BaseAmazonTestCases {
 		System.out.println("-------------------------------------------------------------------------------------");
 		System.out.println("Total product count on Site message ---------->\n" + obj.getTotalProductCount().getText());
 		System.out.println("========================================================================================");
-
 	}
 
 	// Find out total count of a specific product
-	public void findAllOccuranceOfASpecifProduct() {
+	public void findAllOccuranceOfASpecifProduct(String specificProduct) {
 		List<String> totalForSpecificProduct = new ArrayList<>();
-
 		for (int a = 0; a < productList.size(); a++) {
-			if (productList.get(a).contains("iPhone X")) {
+			if (productList.get(a).contains(specificProduct)) {
 				totalForSpecificProduct.add(productList.get(a));
 			}
 		}
@@ -170,20 +167,18 @@ public class BaseAmazonTestCases {
 	}
 
 	public void getHighAndLowPrices() {
-
+		// Converting WebElement dollar to float
 		List<Float> storeDollarValue = new ArrayList<>();
-
 		for (WebElement dollarPrice : obj.getDollarPriceOfItem()) {
 			storeDollarValue.add(Float.parseFloat(dollarPrice.getText().trim().replaceAll(",", "")));
 		}
-
 		System.out.println("Price of item in Dollar --> Float ::\n++++++++++++++++++++++++++++++++++++++++++++");
 		for (int j = 0; j < storeDollarValue.size(); j++) {
 			System.out.println(storeDollarValue.get(j) + "\n.....");
 		}
 		System.out.println("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
 
-		// Converting Cent value from WebElement to float
+		// Converting WebElement cent to float
 		List<Float> storeCentValue = new ArrayList<>();
 
 		System.out.println("Price of item in Cent --> Flaot ::\n ++++++++++++++++++++++++++++++++++++++++++++++++");
@@ -195,6 +190,7 @@ public class BaseAmazonTestCases {
 		}
 		System.out.println("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
 
+		// Adding dollar and price and adding to a new array
 		List<Float> itemPrice = new ArrayList<>();
 		for (int p = 0; p < storeDollarValue.size(); p++) {
 			float dollarValue = storeDollarValue.get(p);
@@ -213,6 +209,73 @@ public class BaseAmazonTestCases {
 		System.out.println("The lowest price is ::\n" + minPrice);
 		System.out.println(
 				"*****************************************************************************************************");
+	}
+
+	// Sort by low to high price
+	public void sortByLowToHighPrice() throws InterruptedException {
+		Select sortDropDown = new Select(obj.getSortBy());
+		sortDropDown.selectByValue("price-asc-rank");
+		Thread.sleep(6000);
+	}
+	
+
+	// Adding an item to the cart
+	public void addAnItemToCart() {
+		obj.getAddItemToCart().click();
+		WebDriverWait wait = new WebDriverWait(driver, 5);
+		wait.until(ExpectedConditions.visibilityOf(obj.getAddToCartButton()));
+		obj.getAddToCartButton().click();
+	}
+
+	public void addNewPayment() throws InterruptedException {
+		WebDriverWait wait = new WebDriverWait(driver, 5);
+		wait.until(ExpectedConditions.visibilityOf(obj.getProceedToCheckoutButton()));
+		obj.getProceedToCheckoutButton().click();
+		wait.until(ExpectedConditions.visibilityOf(obj.getChangePaymentType()));
+		obj.getChangePaymentType().click();
+		wait.until(ExpectedConditions.visibilityOf(obj.getAddNewBankAccount()));
+		color.drawBorder(obj.getAddNewBankAccount(), "orange");
+		obj.getAddNewBankAccount().click();
+
+		// Store your parent window
+		String parentWindowHandler = driver.getWindowHandle();
+		String subWindowHandler = null;
+
+		// get all window handles
+		Set<String> handles = driver.getWindowHandles();
+		Iterator<String> iterator = handles.iterator();
+		while (iterator.hasNext()) {
+			subWindowHandler = iterator.next();
+		}
+		driver.switchTo().window(subWindowHandler); // switch to popup window
+
+		// Now you are in the popup window, perform necessary actions here
+		obj.getNameOnBank().sendKeys(obj.getNameOnAccountString());
+		obj.getBankRoutingNumber().sendKeys(obj.getBankRountingNumberInt());
+		obj.getReEnterCheckingAccountNumber().sendKeys(obj.getReEnterCheckingAccountNumberInt());
+		obj.getDrLicenseNumber().sendKeys(obj.getDriverLincenseInt());
+		obj.getStateDropdown().click();
+
+		for (WebElement selectState : obj.getStateList()) {
+			System.out.println(selectState.getText());
+		}
+		
+		for (WebElement selectState : obj.getStateList()) {
+			Thread.sleep(1000);
+			if (selectState.getText().equals("NY")) {
+				selectState.click();
+			}
+		}
+		Thread.sleep(6000);
+		obj.getAddThisCheckingAccount();
+		if (obj.getPaymentFailureValidationMessage().getText().equalsIgnoreCase("There was a problem")) {
+			System.out.println("Adding payment failed");
+		}
+
+		// Now you are in the popup window, perform necessary actions here
+
+		driver.switchTo().window(parentWindowHandler); // switch back to parent window
+		driver.navigate().to(obj.getURL());
 	}
 
 	public void tearDown() {
