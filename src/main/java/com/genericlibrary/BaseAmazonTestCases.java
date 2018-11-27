@@ -171,31 +171,6 @@ public class BaseAmazonTestCases {
 
 	public void getHighAndLowPrices() {
 
-		// Printing Dollar value in String --> Price has a comma to show thousandth
-		// place
-		/*
-		 * List<String> priceInDollar = new ArrayList<>(); for (WebElement dollar :
-		 * obj.getDollarPriceOfItem()) { priceInDollar.add(dollar.getText()); }
-		 * System.out.
-		 * println("Price of items in Dollar - String================================================"
-		 * ); for(int i=0; i<priceInDollar.size(); i++) {
-		 * System.out.println(priceInDollar.get(i)); } System.out.println(
-		 * "/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+"
-		 * );
-		 * 
-		 * // Printing Cents value in string ---> List<String> priceInCents = new
-		 * ArrayList<>(); for (WebElement cents : obj.getCentsPriceOfItem()) {
-		 * priceInCents.add(cents.getText()); }
-		 * 
-		 * System.out.
-		 * println("Price of items in Cent - String=================================================="
-		 * ); for(int j=0;j<priceInCents.size();j++) {
-		 * System.out.println(priceInCents.get(j)); } System.out.
-		 * println("Specific Products :: +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
-		 * );
-		 */
-		// Converting Dollar value from WebElement to float
-
 		List<Float> storeDollarValue = new ArrayList<>();
 
 		for (WebElement dollarPrice : obj.getDollarPriceOfItem()) {
