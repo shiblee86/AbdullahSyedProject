@@ -219,19 +219,30 @@ public class BaseAmazonTestCases {
 	}
 
 	// Adding an item to the cart
-	public void addAnItemToCart() {
+	public void viewItemDetails() {
 		obj.getAddItemToCart().click();
+	}
+
+	public void addAnItemToCart() {
 		WebDriverWait wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getAddToCartButton()));
 		obj.getAddToCartButton().click();
 	}
 
-	public void addNewPayment() throws InterruptedException {
+	public void proceedToPayment() throws InterruptedException {
 		WebDriverWait wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getProceedToCheckoutButton()));
 		obj.getProceedToCheckoutButton().click();
+	}
+
+	public void changePaymentType() throws InterruptedException {
+		WebDriverWait wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getChangePaymentType()));
 		obj.getChangePaymentType().click();
+	}
+
+	public void addNewPayment() throws InterruptedException {
+		WebDriverWait wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getAddNewBankAccount()));
 		color.drawBorder(obj.getAddNewBankAccount(), "orange");
 		obj.getAddNewBankAccount().click();
@@ -256,11 +267,10 @@ public class BaseAmazonTestCases {
 		obj.getStateDropdown().click();
 
 		/*
-		for (WebElement selectState : obj.getStateList()) {
-			System.out.println(selectState.getText());
-		}
-		System.out.println(obj.getStateList().size());
-		*/
+		 * for (WebElement selectState : obj.getStateList()) {
+		 * System.out.println(selectState.getText()); }
+		 * System.out.println(obj.getStateList().size());
+		 */
 
 		for (WebElement selectState : obj.getStateList()) {
 			Thread.sleep(1000);

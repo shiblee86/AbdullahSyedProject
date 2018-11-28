@@ -19,7 +19,10 @@ public class RunAmazonTestCases {
 		obj.findAllItemsOnPageOne();
 		obj.findAllOccuranceOfASpecifProduct("iphone x");
 		obj.getHighAndLowPrices();
+		obj.viewItemDetails();
 		obj.addAnItemToCart();
+		obj.proceedToPayment();
+		obj.changePaymentType();
 		obj.addNewPayment();
 		obj.tearDown();
 
