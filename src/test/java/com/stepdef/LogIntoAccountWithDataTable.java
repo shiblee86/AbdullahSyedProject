@@ -16,6 +16,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 public class LogIntoAccountWithDataTable {
+	/*
 	
 	WebDriver driver;
 	PageFactoryLoginXpath obj;
@@ -103,5 +104,5 @@ public class LogIntoAccountWithDataTable {
 	   driver.quit();
 	    
 	}
-
+*/
 }

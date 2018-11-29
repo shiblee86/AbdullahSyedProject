@@ -112,10 +112,10 @@ public class PageFactoryLoginXpath {
 	}
 	
 	@FindBy(xpath="(//*[contains(@class,'s-access-title')])[1]")
-	private WebElement addItemToCart;
+	private WebElement viewItem;
 	
-	public WebElement getAddItemToCart() {
-		return addItemToCart;
+	public WebElement getViewItem() {
+		return viewItem;
 	}
 	
 	@FindBy(css="#add-to-cart-button")

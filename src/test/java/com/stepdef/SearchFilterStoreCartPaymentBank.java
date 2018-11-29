@@ -1,11 +1,10 @@
-package com.genericlibrary;
+package com.stepdef;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -14,15 +13,17 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
 import com.newpagefactory.PageFactoryLoginXpath;
 import com.util.Highlighter;
 import com.util.ScreenShots;
 
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import edu.emory.mathcs.backport.java.util.Collections;
 
-public class BaseAmazonTestCases {
+public class SearchFilterStoreCartPaymentBank {
 
 	WebDriver driver;
 	PageFactoryLoginXpath obj;
@@ -30,8 +31,11 @@ public class BaseAmazonTestCases {
 	List<String> productList = new ArrayList<>();
 	List<String> pricePerItemTable = new ArrayList<>();
 	Actions action;
+	String parentWindowHandler;
+	String subWindowHandler;
 
-	public void getSetup() {
+	@Given("^User is able to launch any browser$")
+	public void user_is_able_to_launch_any_browser() throws Throwable {
 		// Operating System
 		String os = System.getProperty("os.name").toLowerCase();
 
@@ -52,18 +56,35 @@ public class BaseAmazonTestCases {
 		driver = new ChromeDriver();
 		obj = PageFactory.initElements(driver, PageFactoryLoginXpath.class);
 		color = new Highlighter(driver);
-		driver.navigate().to(obj.getURL());
-		driver.manage().window().maximize();
+		driver.manage().window().fullscreen();
 	}
 
-	public void getLogin() {
+	@Given("^User is able to navigate to the url$")
+	public void user_is_able_to_navigate_to_the_url() throws Throwable {
+		driver.navigate().to(obj.getURL());
+	}
+
+	@When("^User clicks on Account & List$")
+	public void user_clicks_on_Account_List() throws Throwable {
 		color.drawBorder(obj.getMyAccount(), "green");
 		ScreenShots.captureScreenShot(driver, "LoginPage");
 		obj.getMyAccount().click();
+	}
+
+	@Given("^User enters valid userName$")
+	public void user_enters_userName() throws Throwable {
 		color.drawBorder(obj.getEmailAddress(), "red");
 		obj.getEmailAddress().sendKeys(obj.getUserName());
+	}
+
+	@Given("^User enters valid password$")
+	public void user_enters_password() throws Throwable {
 		color.drawBorder(obj.getPassword(), "blue");
 		obj.getPassword().sendKeys(obj.getPass());
+	}
+
+	@Given("^User clicks on SignIn button$")
+	public void user_clicks_on_SignIn_button() throws Throwable {
 		color.drawBorder(obj.getSignIn(), "cyan");
 		ScreenShots.captureScreenShot(driver, "Screenshot Email and password input fields");
 		obj.getSignIn().click();
@@ -71,44 +92,24 @@ public class BaseAmazonTestCases {
 
 	}
 
-	public void verifyLogin() {
-		color.drawBorder(obj.getUserNameAfterLogin(), "pink");
-		if (obj.getUserNameAfterLogin().getText().equalsIgnoreCase("Hi, Syed")) {
-			System.out.println("Login Verification Passed");
-		} else {
-			System.out.println("Login Varification Failed");
-		}
-		ScreenShots.captureScreenShot(driver, "Login Verification");
-
-	}
-
-	public void validateLogin() {
-		color.drawBorder(obj.getUserNameAfterLogin(), "pink");
-		try {
-			Assert.assertEquals(obj.getUserNameAfterLogin().getText(), "Hi, Syed");
-		} catch (AssertionError e) {
-			System.out.println("Login Validation FAILED");
-			throw e;
-		}
-		System.out.println("Loging Validation PASSED");
-		ScreenShots.captureScreenShot(driver, "Login Verification");
-
-	}
-
-	// Search for item
-	public void searchForItems(String productname) {
-		obj.searchForItems().sendKeys(productname);
+	@Given("^the user is able to click on the search button and search for product \"([^\"]*)\"$")
+	public void the_user_is_able_to_click_on_the_search_button_and_search_for_product(String productName)
+			throws Throwable {
+		obj.searchForItems().sendKeys(productName);
 		obj.searchForItems().submit();
+		// Write code here that turns the phrase above into concrete actions
+
 	}
 
-	// Sort by price high to low
-	public void sortByHighToLowPrice() {
+	@Given("^the user is able to sort item by high to low price$")
+	public void the_user_is_able_to_sort_item_by_high_to_low_price() throws Throwable {
 		Select sortDropDown = new Select(obj.getSortBy());
 		sortDropDown.selectByValue("price-desc-rank");
+
 	}
 
-	// Find total page number
-	public void getTotalPageNumber() {
+	@Given("^the user is able to find total page number$")
+	public void the_user_is_able_to_find_total_page_number() throws Throwable {
 		System.out.println("Total number of pages with class '.pagnLink' ::\n" + obj.getTotalPageCount().size());
 		for (int j = 0; j < obj.getTotalPageCount().size(); j++) {
 			color.drawBorder(obj.getTotalPageCount().get(j), "cyan");
@@ -118,16 +119,16 @@ public class BaseAmazonTestCases {
 				+ "\n-----------------------------------------------------------------------------------------");
 	}
 
-	// Find current page number
-	public void getCurrentPage() {
+	@Given("^the user is able to find current page number$")
+	public void the_user_is_able_to_find_current_page_number() throws Throwable {
 		// ac.moveToElement(obj.getCurrentPage()).build().perform();
 		color.drawBorder(obj.getCurrentPage(), "green");
 		System.out.println("The current page number is\n" + obj.getCurrentPage().getText()
 				+ "\n-----------------------------------------------------------------------------------------");
 	}
 
-	// Find all product and count
-	public void findAllItemsOnPageOne() {
+	@Given("^the user is able to see all searched products and count$")
+	public void the_user_is_able_to_see_all_searched_products_and_count() throws Throwable {
 		System.out.println(
 				"ITEMS DISPLAYED ON CURRENT PAGE\n-----------------------------------------------------------------------------------------");
 		driver.navigate().refresh();
@@ -146,10 +147,12 @@ public class BaseAmazonTestCases {
 		System.out.println("-------------------------------------------------------------------------------------");
 		System.out.println("Total product count on Site message ---------->\n" + obj.getTotalProductCount().getText());
 		System.out.println("========================================================================================");
+
 	}
 
-	// Find out total count of a specific product
-	public void findAllOccuranceOfASpecifProduct(String specificProduct) {
+	@Given("^the user is able to filter specific products count of a specific product \"([^\"]*)\"$")
+	public void the_user_is_able_to_filter_specific_products_count_of_a_specific_product(String specificProduct)
+			throws Throwable {
 		List<String> totalForSpecificProduct = new ArrayList<>();
 		for (int a = 0; a < productList.size(); a++) {
 			if (productList.get(a).contains(specificProduct)) {
@@ -164,9 +167,11 @@ public class BaseAmazonTestCases {
 		System.out.println("/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+/+");
 		System.out.println("Total number of Specific items ::\n" + totalForSpecificProduct.size()
 				+ "\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+
 	}
 
-	public void getHighAndLowPrices() {
+	@Given("^the user is able to see item with highest and item with lowset price$")
+	public void the_user_is_able_to_see_item_with_highest_and_item_with_lowset_price() throws Throwable {
 		// Converting WebElement dollar to float
 		List<Float> storeDollarValue = new ArrayList<>();
 		for (WebElement dollarPrice : obj.getDollarPriceOfItem()) {
@@ -211,45 +216,49 @@ public class BaseAmazonTestCases {
 				"*****************************************************************************************************");
 	}
 
-	// Sort by low to high price
-	public void sortByLowToHighPrice() throws InterruptedException {
+	@Given("^the user is able to sort item by low to high price$")
+	public void the_user_is_able_to_sort_item_by_low_to_high_price() throws Throwable {
 		Select sortDropDown = new Select(obj.getSortBy());
 		sortDropDown.selectByValue("price-asc-rank");
 		Thread.sleep(6000);
 	}
 
-	// Adding an item to the cart
-	public void viewItemDetails() {
+	@Given("^the user is able to add click on an item and see details$")
+	public void the_user_is_able_to_add_click_on_an_item_and_see_details() throws Throwable {
 		obj.getViewItem().click();
 	}
 
-	public void addAnItemToCart() {
+	@Given("^the user is able to add the item to the cart$")
+	public void the_user_is_able_to_add_the_item_to_the_cart() throws Throwable {
 		WebDriverWait wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getAddToCartButton()));
 		obj.getAddToCartButton().click();
 	}
 
-	public void proceedToPayment() throws InterruptedException {
+	@Given("^the user is able to proceed to payment$")
+	public void the_user_is_able_to_proceed_to_payment() throws Throwable {
 		WebDriverWait wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getProceedToCheckoutButton()));
 		obj.getProceedToCheckoutButton().click();
 	}
 
-	public void changePaymentType() throws InterruptedException {
+	@Given("^the user is able to click change payment$")
+	public void the_user_is_able_to_click_change_payment() throws Throwable {
 		WebDriverWait wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getChangePaymentType()));
 		obj.getChangePaymentType().click();
 	}
 
-	public void addNewPayment() throws InterruptedException {
+	@Given("^the user is able to add new bank account$")
+	public void the_user_is_able_to_add_new_bank_account() throws Throwable {
 		WebDriverWait wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getAddNewBankAccount()));
 		color.drawBorder(obj.getAddNewBankAccount(), "orange");
 		obj.getAddNewBankAccount().click();
 
 		// Store your parent window
-		String parentWindowHandler = driver.getWindowHandle();
-		String subWindowHandler = null;
+		parentWindowHandler = driver.getWindowHandle();
+		subWindowHandler = null;
 
 		// get all window handles
 		Set<String> handles = driver.getWindowHandles();
@@ -266,14 +275,7 @@ public class BaseAmazonTestCases {
 		obj.getDrLicenseNumber().sendKeys(obj.getDriverLincenseInt());
 		obj.getStateDropdown().click();
 
-		/*
-		 * for (WebElement selectState : obj.getStateList()) {
-		 * System.out.println(selectState.getText()); }
-		 * System.out.println(obj.getStateList().size());
-		 */
-
 		for (WebElement selectState : obj.getStateList()) {
-			Thread.sleep(1000);
 			if (selectState.getText().equalsIgnoreCase("NY")) {
 				selectState.click();
 			}
@@ -284,12 +286,35 @@ public class BaseAmazonTestCases {
 		}
 
 		// Now you are in the popup window, perform necessary actions here
+	}
 
+	@Then("^the User should be able should see success message on screen$")
+	public void the_User_should_be_able_should_see_success_message_on_screen() throws Throwable {
+
+		WebDriverWait wait = new WebDriverWait(driver, 5);
+		wait.until(ExpectedConditions.visibilityOf(obj.getAddThisCheckingAccount()));
+		obj.getAddThisCheckingAccount().click();
+		if (obj.getPaymentFailureValidationMessage().getText().equalsIgnoreCase("There was a problem")) {
+			System.out.println("Adding payment failed. Test Passed.");
+		}
+		// Now you are in the popup window, perform necessary actions here
+		driver.switchTo().window(parentWindowHandler); // switch back to parent window
+		driver.navigate().to(obj.getURL());
+
+	}
+
+	@Then("^the user will be able to proceed to finishing transaction$")
+	public void the_user_will_be_able_to_proceed_to_finishing_transaction() throws Throwable {
+		parentWindowHandler = driver.getWindowHandle();
+		subWindowHandler = null;
 		driver.switchTo().window(parentWindowHandler); // switch back to parent window
 		driver.navigate().to(obj.getURL());
 	}
 
-	public void tearDown() {
+	@Then("^the user should be able to close the browser$")
+	public void the_user_should_be_able_to_close_the_browser() throws Throwable {
 		driver.quit();
+
 	}
+
 }
