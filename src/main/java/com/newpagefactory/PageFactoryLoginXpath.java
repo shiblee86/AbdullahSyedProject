@@ -56,6 +56,14 @@ public class PageFactoryLoginXpath {
 	@FindBy(css="#s-result-count")
 	private WebElement productCountResult;
 	
+	
+	@FindBy(xpath="(//*[contains(@class,'nav-a nav-a-2')])[5]")
+	private WebElement cartButton;
+	
+	public WebElement getCartButton() {
+		return cartButton;
+	}
+	
 	public WebElement getProductCountResult() {
 		return productCountResult;
 	}

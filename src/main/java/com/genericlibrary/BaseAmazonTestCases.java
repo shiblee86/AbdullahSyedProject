@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -31,19 +30,33 @@ public class BaseAmazonTestCases {
 	List<String> pricePerItemTable = new ArrayList<>();
 	Actions action;
 
+	String parentWindowHandler;
+	String subWindowHandler;
+
+	WebDriverWait wait = new WebDriverWait(driver, 5);
+
+	BaseAmazonTestCases baseObj = new BaseAmazonTestCases();
+
+	List<String>itemsToSearch = new ArrayList<>();
+	List<String>specificItemsToSearch = new ArrayList<>();
+
+	/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+	/**
+	 * Method getSetup() wil declare browser driver and dictate pc to launch browser
+	 */
 	public void getSetup() {
-		// Operating System
+		/** Making OS dynamic between Mac and Windows */
 		String os = System.getProperty("os.name").toLowerCase();
 
-		// Windows driver path
+		/** Windows driver path */
 		String winPath = System.getProperty("user.dir");
 		String winDriverPath = winPath + "\\Driver\\chromedriver.exe";
 
-		// Mac driver path
+		/** Mac driver path */
 		String macPath = System.getProperty("user.home");
 		String macDriverPath = macPath + "/chromedriver/chromedriver";
 
-		// Tell Eclipse which driver to use depending on OS
+		/** Tell Eclipse which driver to use depending on OS */
 		if (os.contains("mac")) {
 			System.setProperty("webdriver.chrome.driver", macDriverPath);
 		} else {
@@ -56,6 +69,7 @@ public class BaseAmazonTestCases {
 		driver.manage().window().maximize();
 	}
 
+	/** Loggin into the app */
 	public void getLogin() {
 		color.drawBorder(obj.getMyAccount(), "green");
 		ScreenShots.captureScreenShot(driver, "LoginPage");
@@ -71,6 +85,7 @@ public class BaseAmazonTestCases {
 
 	}
 
+	/** Verifying login */
 	public void verifyLogin() {
 		color.drawBorder(obj.getUserNameAfterLogin(), "pink");
 		if (obj.getUserNameAfterLogin().getText().equalsIgnoreCase("Hi, Syed")) {
@@ -82,6 +97,7 @@ public class BaseAmazonTestCases {
 
 	}
 
+	/** Validating login */
 	public void validateLogin() {
 		color.drawBorder(obj.getUserNameAfterLogin(), "pink");
 		try {
@@ -95,44 +111,44 @@ public class BaseAmazonTestCases {
 
 	}
 
-	// Search for item
-	public void searchForItems(String productname) {
-		obj.searchForItems().sendKeys(productname);
+	/** Searching for an item */
+	public void searchForItems(List<String> itemsToSearch) {
+		obj.searchForItems().sendKeys(itemsToSearch);
 		obj.searchForItems().submit();
 	}
 
-	// Sort by price high to low
+	/** Sort by price high to low */
 	public void sortByHighToLowPrice() {
+		wait.until(ExpectedConditions.visibilityOf(obj.getSortBy()));
+
 		Select sortDropDown = new Select(obj.getSortBy());
 		sortDropDown.selectByValue("price-desc-rank");
 	}
 
-	// Find total page number
+	/** Find total page number */
 	public void getTotalPageNumber() {
-		System.out.println("Total number of pages with class '.pagnLink' ::\n" + obj.getTotalPageCount().size());
-		for (int j = 0; j < obj.getTotalPageCount().size(); j++) {
-			color.drawBorder(obj.getTotalPageCount().get(j), "cyan");
-		}
+
+		wait.until(ExpectedConditions.visibilityOf(obj.getLastPage()));
 		System.out.println("-----------------------------------------------------------------------------------------");
 		System.err.println("The last page number is ::\n" + obj.getLastPage().getText()
 				+ "\n-----------------------------------------------------------------------------------------");
 	}
 
-	// Find current page number
+	/** Find current page number */
 	public void getCurrentPage() {
+		wait.until(ExpectedConditions.visibilityOf(obj.getCurrentPage()));
 		// ac.moveToElement(obj.getCurrentPage()).build().perform();
 		color.drawBorder(obj.getCurrentPage(), "green");
 		System.out.println("The current page number is\n" + obj.getCurrentPage().getText()
 				+ "\n-----------------------------------------------------------------------------------------");
 	}
 
-	// Find all product and count
+	/** Find all product and count */
 	public void findAllItemsOnPageOne() {
 		System.out.println(
 				"ITEMS DISPLAYED ON CURRENT PAGE\n-----------------------------------------------------------------------------------------");
 		driver.navigate().refresh();
 
-		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions.visibilityOf(obj.findAllItemsPageOne().get(0)));
 
 		for (WebElement productName : obj.findAllItemsPageOne()) {
@@ -148,11 +164,11 @@ public class BaseAmazonTestCases {
 		System.out.println("========================================================================================");
 	}
 
-	// Find out total count of a specific product
-	public void findAllOccuranceOfASpecifProduct(String specificProduct) {
+	/** Find out total count of a specific product */
+	public void findAllOccuranceOfASpecifProduct(List<String> specificItemsToSearch) {
 		List<String> totalForSpecificProduct = new ArrayList<>();
 		for (int a = 0; a < productList.size(); a++) {
-			if (productList.get(a).contains(specificProduct)) {
+			if (productList.get(a).contains(specificItemsToSearch)) {
 				totalForSpecificProduct.add(productList.get(a));
 			}
 		}
@@ -166,6 +182,7 @@ public class BaseAmazonTestCases {
 				+ "\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
 	}
 
+	/** Find High and Low prices */
 	public void getHighAndLowPrices() {
 		// Converting WebElement dollar to float
 		List<Float> storeDollarValue = new ArrayList<>();
@@ -211,36 +228,46 @@ public class BaseAmazonTestCases {
 				"*****************************************************************************************************");
 	}
 
-	// Sort by low to high price
+	/** Sort by low to high price */
 	public void sortByLowToHighPrice() throws InterruptedException {
+		wait.until(ExpectedConditions.visibilityOf(obj.getSortBy()));
 		Select sortDropDown = new Select(obj.getSortBy());
 		sortDropDown.selectByValue("price-asc-rank");
 		Thread.sleep(6000);
 	}
 
-	// Adding an item to the cart
+	/** View item details */
 	public void viewItemDetails() {
-		obj.getViewItem().click();
+		obj.getAddToCartButton().click();
 	}
 
+	/** Add item to cart */
 	public void addAnItemToCart() {
-		WebDriverWait wait = new WebDriverWait(driver, 5);
+		// WebDriverWait wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getAddToCartButton()));
 		obj.getAddToCartButton().click();
 	}
 
+	/** User clicks on cart button */
+	public void clickOnCart() {
+		obj.getCartButton();
+	}
+
+	/** Proceed to payment */
 	public void proceedToPayment() throws InterruptedException {
-		WebDriverWait wait = new WebDriverWait(driver, 5);
+		// WebDriverWait wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getProceedToCheckoutButton()));
 		obj.getProceedToCheckoutButton().click();
 	}
 
+	/** Change payment type */
 	public void changePaymentType() throws InterruptedException {
-		WebDriverWait wait = new WebDriverWait(driver, 5);
+		// WebDriverWait wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getChangePaymentType()));
 		obj.getChangePaymentType().click();
 	}
 
+	/** Add new payment */
 	public void addNewPayment() throws InterruptedException {
 		WebDriverWait wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getAddNewBankAccount()));
@@ -248,8 +275,8 @@ public class BaseAmazonTestCases {
 		obj.getAddNewBankAccount().click();
 
 		// Store your parent window
-		String parentWindowHandler = driver.getWindowHandle();
-		String subWindowHandler = null;
+		// parentWindowHandler = driver.getWindowHandle();
+		subWindowHandler = null;
 
 		// get all window handles
 		Set<String> handles = driver.getWindowHandles();
@@ -266,30 +293,83 @@ public class BaseAmazonTestCases {
 		obj.getDrLicenseNumber().sendKeys(obj.getDriverLincenseInt());
 		obj.getStateDropdown().click();
 
-		/*
-		 * for (WebElement selectState : obj.getStateList()) {
-		 * System.out.println(selectState.getText()); }
-		 * System.out.println(obj.getStateList().size());
-		 */
-
 		for (WebElement selectState : obj.getStateList()) {
 			Thread.sleep(1000);
 			if (selectState.getText().equalsIgnoreCase("NY")) {
 				selectState.click();
 			}
 		}
+
+	}
+
+	/** Confirmation message for new payment type */
+	public void confirmationMessage() {
+
 		obj.getAddThisCheckingAccount().click();
 		if (obj.getPaymentFailureValidationMessage().getText().equalsIgnoreCase("There was a problem")) {
 			System.out.println("Adding payment failed. Test Passed.");
+		} else {
+			System.out.println("Account added");
 		}
 
 		// Now you are in the popup window, perform necessary actions here
 
+		// driver.switchTo().window(parentWindowHandler); // switch back to parent
+		// window
+		// driver.navigate().to(obj.getURL());
+	}
+
+	public void goBackToLandingPage() {
+		// Now you are in the popup window, perform necessary actions here
+		// parentWindowHandler = driver.getWindowHandle();
+		// subWindowHandler = null;
 		driver.switchTo().window(parentWindowHandler); // switch back to parent window
 		driver.navigate().to(obj.getURL());
+
 	}
 
 	public void tearDown() {
 		driver.quit();
+	}
+
+	public void runAmazonProjectForSpecificProduct() throws InterruptedException {
+
+		baseObj.getSetup();
+		baseObj.getLogin();
+		baseObj.verifyLogin();
+		baseObj.validateLogin();
+
+		itemsToSearch.add("iphone");
+		itemsToSearch.add("hp laptop");
+
+		for (int product = 0; product < itemsToSearch.size(); product++) {
+			baseObj.searchForItems(itemsToSearch);
+			baseObj.sortByHighToLowPrice();
+			baseObj.getTotalPageNumber();
+			baseObj.getCurrentPage();
+			baseObj.findAllItemsOnPageOne();
+			baseObj.getHighAndLowPrices();
+			baseObj.sortByLowToHighPrice();
+
+			specificItemsToSearch.add("iPhone X");
+			specificItemsToSearch.add("Elitebook");
+
+			for (int specificProduct = 0; specificProduct < specificItemsToSearch.size();) {
+				baseObj.findAllOccuranceOfASpecifProduct(specificItemsToSearch);
+				baseObj.viewItemDetails();
+				baseObj.addAnItemToCart();
+				break;
+			}
+
+			baseObj.clickOnCart();
+			baseObj.proceedToPayment();
+			baseObj.changePaymentType();
+			baseObj.addNewPayment();
+			baseObj.confirmationMessage();
+			baseObj.goBackToLandingPage();
+			baseObj.tearDown();
+
+		}
+
 	}
 }
