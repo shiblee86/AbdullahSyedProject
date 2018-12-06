@@ -3,9 +3,10 @@ package com.genericlibrary;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
 
+import org.openqa.selenium.ElementNotVisibleException;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -254,21 +255,21 @@ public class BaseAmazonTestCases {
 	}
 
 	/** User Clicks on the Home icon */
-	public void clickOnHomeButton() {
-		obj.getHomeButton().click();
+	public void getOutOfCheckoutAndSearch() {
+		obj.getAmazonLogoOnChekoutPage().click();
+		obj.getReturnToCart().click();
 	}
 
 	/** If warranty pop-up appears */
-	public void getRidOfWarrenty() {
-
+	public void getRidOfWarrenty() throws Throwable {
+		obj.getAddToCartButton().click();
+		Thread.sleep(2000);
 		try {
-
 			obj.clickNoThanksToWarrenty().click();
-		} catch (NoSuchElementException e) {
-			System.out.println("Protection plan is not offered");
+		} catch (NoSuchElementException | ElementNotVisibleException e) {
 
-		}obj.getProceedToCheckoutButton();
-
+		}
+		obj.getProceedToCheckoutButton().click();
 	}
 
 	/** Proceed to payment */
@@ -351,35 +352,5 @@ public class BaseAmazonTestCases {
 		driver.quit();
 	}
 
-	/*
-	 * public void runAmazonProject() throws InterruptedException {
-	 * 
-	 * baseObj.getSetup(); baseObj.getLogin(); baseObj.verifyLogin();
-	 * baseObj.validateLogin();
-	 * 
-	 * itemsToSearch.add("iphone"); itemsToSearch.add("hp laptop");
-	 * 
-	 * for (int product = 0; product < itemsToSearch.size(); product++) {
-	 * 
-	 * baseObj.searchForItems(itemsToSearch); baseObj.sortByHighToLowPrice();
-	 * baseObj.getTotalPageNumber(); baseObj.getCurrentPage();
-	 * baseObj.findAllItemsOnPageOne(); baseObj.getHighAndLowPrices();
-	 * baseObj.sortByLowToHighPrice();
-	 * 
-	 * specificItemsToSearch.add("iPhone X");
-	 * specificItemsToSearch.add("Elitebook");
-	 * 
-	 * for (int specificProduct = 0; specificProduct <
-	 * specificItemsToSearch.size();) {
-	 * baseObj.findAllOccuranceOfASpecifProduct(specificItemsToSearch);
-	 * baseObj.viewItemDetails(); baseObj.addAnItemToCart();
-	 * baseObj.clickOnHomeButton(); break; } baseObj.clickOnCart();
-	 * baseObj.proceedToPayment(); baseObj.changePaymentType();
-	 * baseObj.addNewPayment(); baseObj.confirmationMessage();
-	 * baseObj.goBackToLandingPage(); baseObj.tearDown();
-	 * 
-	 * }
-	 * 
-	 * }
-	 */
+
 }

@@ -4,12 +4,13 @@ import java.util.List;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.How;
 
 public class PageFactoryLoginXpath {
 
 	private String URL = "https://www.amazon.com/";
-	private String userName = "jamjam.jamal2018@gmail.com";
-	private String pass = "$Forest04123";
+	private String userName = "syed.r.abdullah@gmail.com";
+	private String pass = "$Sa038575";
 	
 	private String nameOnAccountString = "Syed R. Abdullah";
 	public String getNameOnAccountString() {
@@ -62,6 +63,20 @@ public class PageFactoryLoginXpath {
 	
 	@FindBy(css="#s-result-count")
 	private WebElement productCountResult;
+	
+	@FindBy(css=".a-icon-logo")
+	private WebElement amazonLogoOnCheckoutPage;
+	
+	public WebElement getAmazonLogoOnChekoutPage() {
+		return amazonLogoOnCheckoutPage;
+	}
+	
+	@FindBy(css="#a-autoid-1-announce")
+	private WebElement returnToCart;
+	
+	public WebElement getReturnToCart() {
+		return returnToCart;
+	}
 	
 	
 	@FindBy(xpath="(//*[contains(@class,'nav-a nav-a-2')])[5]")
@@ -133,14 +148,14 @@ public class PageFactoryLoginXpath {
 		return viewItem;
 	}
 	
-	@FindBy(css="#add-to-cart-button")
+	@FindBy(xpath="//*[contains(@id,'add-to-cart-button')]")
 	private WebElement addToCartButton;
 	
 	public WebElement getAddToCartButton(){
 		return addToCartButton;
 	}
 	
-	@FindBy(xpath="//*[contains(@class,'hlb-checkout-button')]")
+	@FindBy(xpath="//*[contains(@class,'s_checkout')]")
 	private WebElement proceedToCheckoutButton;
 	
 	public WebElement getProceedToCheckoutButton() {
@@ -227,15 +242,18 @@ public class PageFactoryLoginXpath {
 		return stateDropdownButton;
 	}
 	
-	/*
-	@FindBy(xpath="//*[contains(@class,'a-list-link')]//li//a")
-	private List<WebElement> stateList;
-	*/
-	@FindBy(css="#siNoCoverage-announce")
+	@FindBy (xpath="//*[contains(@id,'siNoCoverage-announce']")
 	private WebElement noThanksToWarrenty;
 	
 	public WebElement clickNoThanksToWarrenty() {
 		return noThanksToWarrenty;
+	}
+	
+	@FindBy (how = How.XPATH, using = "//*[contains(text(),'No thanks')]")
+	private WebElement nothankbtn2;
+	
+	public WebElement clickNoThanksToProtection2() {
+		return nothankbtn2;
 	}
 	@FindBy(css=".a-dropdown-link")
 	private List<WebElement> stateList;

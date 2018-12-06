@@ -7,7 +7,7 @@ import com.genericlibrary.BaseAmazonTestCases;
 
 public class RunAmazonTestCases {
 
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws Throwable {
 
 		List<String> itemsToSearch = new ArrayList<>();
 		List<String> specificItemsToSearch = new ArrayList<>();
@@ -15,8 +15,8 @@ public class RunAmazonTestCases {
 		BaseAmazonTestCases baseObj = new BaseAmazonTestCases();
 		baseObj.getSetup();
 		baseObj.getLogin();
-		baseObj.verifyLogin();
-		baseObj.validateLogin();
+		//baseObj.verifyLogin();
+		//baseObj.validateLogin();
 
 		itemsToSearch.add("iphone");
 		itemsToSearch.add("hp laptop");
@@ -35,8 +35,8 @@ public class RunAmazonTestCases {
 			baseObj.sortByLowToHighPrice();
 			baseObj.findAllOccuranceOfASpecifProduct(specificItemsToSearch.get(product));
 			baseObj.viewItemDetails();
-			baseObj.addAnItemToCart();
 			baseObj.getRidOfWarrenty();
+			baseObj.getOutOfCheckoutAndSearch();
 		}
 
 		baseObj.clickOnCart();
