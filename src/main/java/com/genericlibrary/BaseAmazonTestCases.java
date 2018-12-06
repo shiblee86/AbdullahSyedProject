@@ -35,10 +35,9 @@ public class BaseAmazonTestCases {
 
 	WebDriverWait wait;
 
-	BaseAmazonTestCases baseObj = new BaseAmazonTestCases();
 
-	List<String> itemsToSearch = new ArrayList<>();
-	List<String> specificItemsToSearch = new ArrayList<>();
+	//List<String> itemsToSearch = new ArrayList<>();
+	//List<String> specificItemsToSearch = new ArrayList<>();
 
 	/**
 	 * Method getSetup() will declare browser driver and dictate pc to launch
@@ -66,7 +65,7 @@ public class BaseAmazonTestCases {
 		obj = PageFactory.initElements(driver, PageFactoryLoginXpath.class);
 		color = new Highlighter(driver);
 		driver.navigate().to(obj.getURL());
-		driver.manage().window().maximize();
+		driver.manage().window().fullscreen();
 	}
 
 	/** User Logs into the app */
@@ -242,7 +241,7 @@ public class BaseAmazonTestCases {
 
 	/** View item details */
 	public void viewItemDetails() {
-		obj.getAddToCartButton().click();
+		obj.getViewItem().click();
 	}
 
 	/** Add item to cart */
@@ -251,11 +250,17 @@ public class BaseAmazonTestCases {
 		wait.until(ExpectedConditions.visibilityOf(obj.getAddToCartButton()));
 		obj.getAddToCartButton().click();
 	}
-
+	
 	/** User clicks on cart button */
 	public void clickOnCart() {
-		obj.getCartButton();
+		obj.getCartButton().click();
 	}
+	/** User Clicks on the Home icon */
+	public void clickOnHomeButton() {
+		obj.getHomeButton().click();
+	}
+
+
 
 	/** Proceed to payment */
 	public void proceedToPayment() throws InterruptedException {
@@ -337,6 +342,7 @@ public class BaseAmazonTestCases {
 		driver.quit();
 	}
 
+	/*
 	public void runAmazonProject() throws InterruptedException {
 
 		baseObj.getSetup();
@@ -364,7 +370,7 @@ public class BaseAmazonTestCases {
 				baseObj.findAllOccuranceOfASpecifProduct(specificItemsToSearch);
 				baseObj.viewItemDetails();
 				baseObj.addAnItemToCart();
-				obj.getHomeButton();
+				baseObj.clickOnHomeButton();
 				break;
 			}
 			baseObj.clickOnCart();
@@ -378,4 +384,5 @@ public class BaseAmazonTestCases {
 		}
 
 	}
+	*/
 }
