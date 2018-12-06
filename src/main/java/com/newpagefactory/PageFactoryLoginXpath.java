@@ -31,6 +31,13 @@ public class PageFactoryLoginXpath {
 	public String getDriverLincenseInt() {
 		return driverLincenseInt;
 	}
+	
+	@FindBy(xpath="(//*[contains(@class,'nav-logo-base')])[1]")
+	private WebElement homeButton;
+	
+	public WebElement getHomeButton() {
+		return homeButton;
+	}
 
 	@FindBy(xpath = "//*[@id='nav-link-accountList']")
 	private WebElement myAccount;

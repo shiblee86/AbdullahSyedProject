@@ -33,16 +33,16 @@ public class BaseAmazonTestCases {
 	String parentWindowHandler;
 	String subWindowHandler;
 
-	WebDriverWait wait = new WebDriverWait(driver, 5);
+	WebDriverWait wait;
 
 	BaseAmazonTestCases baseObj = new BaseAmazonTestCases();
 
-	List<String>itemsToSearch = new ArrayList<>();
-	List<String>specificItemsToSearch = new ArrayList<>();
+	List<String> itemsToSearch = new ArrayList<>();
+	List<String> specificItemsToSearch = new ArrayList<>();
 
-	/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	/**
-	 * Method getSetup() wil declare browser driver and dictate pc to launch browser
+	 * Method getSetup() will declare browser driver and dictate pc to launch
+	 * browser
 	 */
 	public void getSetup() {
 		/** Making OS dynamic between Mac and Windows */
@@ -69,7 +69,7 @@ public class BaseAmazonTestCases {
 		driver.manage().window().maximize();
 	}
 
-	/** Loggin into the app */
+	/** User Logs into the app */
 	public void getLogin() {
 		color.drawBorder(obj.getMyAccount(), "green");
 		ScreenShots.captureScreenShot(driver, "LoginPage");
@@ -113,12 +113,13 @@ public class BaseAmazonTestCases {
 
 	/** Searching for an item */
 	public void searchForItems(List<String> itemsToSearch) {
-		obj.searchForItems().sendKeys(itemsToSearch);
+		obj.searchForItems().sendKeys(itemsToSearch.get(0));
 		obj.searchForItems().submit();
 	}
 
 	/** Sort by price high to low */
 	public void sortByHighToLowPrice() {
+		wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getSortBy()));
 
 		Select sortDropDown = new Select(obj.getSortBy());
@@ -127,7 +128,7 @@ public class BaseAmazonTestCases {
 
 	/** Find total page number */
 	public void getTotalPageNumber() {
-
+		wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getLastPage()));
 		System.out.println("-----------------------------------------------------------------------------------------");
 		System.err.println("The last page number is ::\n" + obj.getLastPage().getText()
@@ -136,6 +137,7 @@ public class BaseAmazonTestCases {
 
 	/** Find current page number */
 	public void getCurrentPage() {
+		wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getCurrentPage()));
 		// ac.moveToElement(obj.getCurrentPage()).build().perform();
 		color.drawBorder(obj.getCurrentPage(), "green");
@@ -149,6 +151,7 @@ public class BaseAmazonTestCases {
 				"ITEMS DISPLAYED ON CURRENT PAGE\n-----------------------------------------------------------------------------------------");
 		driver.navigate().refresh();
 
+		wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.findAllItemsPageOne().get(0)));
 
 		for (WebElement productName : obj.findAllItemsPageOne()) {
@@ -168,7 +171,7 @@ public class BaseAmazonTestCases {
 	public void findAllOccuranceOfASpecifProduct(List<String> specificItemsToSearch) {
 		List<String> totalForSpecificProduct = new ArrayList<>();
 		for (int a = 0; a < productList.size(); a++) {
-			if (productList.get(a).contains(specificItemsToSearch)) {
+			if (productList.get(a).contains(specificItemsToSearch.get(0))) {
 				totalForSpecificProduct.add(productList.get(a));
 			}
 		}
@@ -230,6 +233,7 @@ public class BaseAmazonTestCases {
 
 	/** Sort by low to high price */
 	public void sortByLowToHighPrice() throws InterruptedException {
+		wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getSortBy()));
 		Select sortDropDown = new Select(obj.getSortBy());
 		sortDropDown.selectByValue("price-asc-rank");
@@ -243,7 +247,7 @@ public class BaseAmazonTestCases {
 
 	/** Add item to cart */
 	public void addAnItemToCart() {
-		// WebDriverWait wait = new WebDriverWait(driver, 5);
+		wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getAddToCartButton()));
 		obj.getAddToCartButton().click();
 	}
@@ -255,21 +259,21 @@ public class BaseAmazonTestCases {
 
 	/** Proceed to payment */
 	public void proceedToPayment() throws InterruptedException {
-		// WebDriverWait wait = new WebDriverWait(driver, 5);
+		wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getProceedToCheckoutButton()));
 		obj.getProceedToCheckoutButton().click();
 	}
 
 	/** Change payment type */
 	public void changePaymentType() throws InterruptedException {
-		// WebDriverWait wait = new WebDriverWait(driver, 5);
+		wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getChangePaymentType()));
 		obj.getChangePaymentType().click();
 	}
 
 	/** Add new payment */
 	public void addNewPayment() throws InterruptedException {
-		WebDriverWait wait = new WebDriverWait(driver, 5);
+		wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getAddNewBankAccount()));
 		color.drawBorder(obj.getAddNewBankAccount(), "orange");
 		obj.getAddNewBankAccount().click();
@@ -328,11 +332,12 @@ public class BaseAmazonTestCases {
 
 	}
 
+	/** User is able to close the browser */
 	public void tearDown() {
 		driver.quit();
 	}
 
-	public void runAmazonProjectForSpecificProduct() throws InterruptedException {
+	public void runAmazonProject() throws InterruptedException {
 
 		baseObj.getSetup();
 		baseObj.getLogin();
@@ -343,6 +348,7 @@ public class BaseAmazonTestCases {
 		itemsToSearch.add("hp laptop");
 
 		for (int product = 0; product < itemsToSearch.size(); product++) {
+
 			baseObj.searchForItems(itemsToSearch);
 			baseObj.sortByHighToLowPrice();
 			baseObj.getTotalPageNumber();
@@ -353,14 +359,14 @@ public class BaseAmazonTestCases {
 
 			specificItemsToSearch.add("iPhone X");
 			specificItemsToSearch.add("Elitebook");
-
+			
 			for (int specificProduct = 0; specificProduct < specificItemsToSearch.size();) {
 				baseObj.findAllOccuranceOfASpecifProduct(specificItemsToSearch);
 				baseObj.viewItemDetails();
 				baseObj.addAnItemToCart();
+				obj.getHomeButton();
 				break;
 			}
-
 			baseObj.clickOnCart();
 			baseObj.proceedToPayment();
 			baseObj.changePaymentType();
