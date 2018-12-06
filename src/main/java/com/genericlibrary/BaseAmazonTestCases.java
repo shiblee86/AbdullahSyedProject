@@ -3,6 +3,7 @@ package com.genericlibrary;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import org.openqa.selenium.WebDriver;
@@ -35,10 +36,6 @@ public class BaseAmazonTestCases {
 
 	WebDriverWait wait;
 
-
-	//List<String> itemsToSearch = new ArrayList<>();
-	//List<String> specificItemsToSearch = new ArrayList<>();
-
 	/**
 	 * Method getSetup() will declare browser driver and dictate pc to launch
 	 * browser
@@ -65,7 +62,7 @@ public class BaseAmazonTestCases {
 		obj = PageFactory.initElements(driver, PageFactoryLoginXpath.class);
 		color = new Highlighter(driver);
 		driver.navigate().to(obj.getURL());
-		driver.manage().window().fullscreen();
+		driver.manage().window().maximize();
 	}
 
 	/** User Logs into the app */
@@ -87,7 +84,7 @@ public class BaseAmazonTestCases {
 	/** Verifying login */
 	public void verifyLogin() {
 		color.drawBorder(obj.getUserNameAfterLogin(), "pink");
-		if (obj.getUserNameAfterLogin().getText().equalsIgnoreCase("Hi, Syed")) {
+		if (obj.getUserNameAfterLogin().getText().equalsIgnoreCase("Hi, Jamjam")) {
 			System.out.println("Login Verification Passed");
 		} else {
 			System.out.println("Login Varification Failed");
@@ -100,7 +97,7 @@ public class BaseAmazonTestCases {
 	public void validateLogin() {
 		color.drawBorder(obj.getUserNameAfterLogin(), "pink");
 		try {
-			Assert.assertEquals(obj.getUserNameAfterLogin().getText(), "Hi, Syed");
+			Assert.assertEquals(obj.getUserNameAfterLogin().getText(), "Hi, Jamjam");
 		} catch (AssertionError e) {
 			System.out.println("Login Validation FAILED");
 			throw e;
@@ -111,8 +108,8 @@ public class BaseAmazonTestCases {
 	}
 
 	/** Searching for an item */
-	public void searchForItems(List<String> itemsToSearch) {
-		obj.searchForItems().sendKeys(itemsToSearch.get(0));
+	public void searchForItems(String productName) {
+		obj.searchForItems().sendKeys(productName);
 		obj.searchForItems().submit();
 	}
 
@@ -167,10 +164,10 @@ public class BaseAmazonTestCases {
 	}
 
 	/** Find out total count of a specific product */
-	public void findAllOccuranceOfASpecifProduct(List<String> specificItemsToSearch) {
+	public void findAllOccuranceOfASpecifProduct(String specificProduct) {
 		List<String> totalForSpecificProduct = new ArrayList<>();
 		for (int a = 0; a < productList.size(); a++) {
-			if (productList.get(a).contains(specificItemsToSearch.get(0))) {
+			if (productList.get(a).contains(specificProduct)) {
 				totalForSpecificProduct.add(productList.get(a));
 			}
 		}
@@ -250,17 +247,29 @@ public class BaseAmazonTestCases {
 		wait.until(ExpectedConditions.visibilityOf(obj.getAddToCartButton()));
 		obj.getAddToCartButton().click();
 	}
-	
+
 	/** User clicks on cart button */
 	public void clickOnCart() {
 		obj.getCartButton().click();
 	}
+
 	/** User Clicks on the Home icon */
 	public void clickOnHomeButton() {
 		obj.getHomeButton().click();
 	}
 
+	/** If warranty pop-up appears */
+	public void getRidOfWarrenty() {
 
+		try {
+
+			obj.clickNoThanksToWarrenty().click();
+		} catch (NoSuchElementException e) {
+			System.out.println("Protection plan is not offered");
+
+		}obj.getProceedToCheckoutButton();
+
+	}
 
 	/** Proceed to payment */
 	public void proceedToPayment() throws InterruptedException {
@@ -284,7 +293,7 @@ public class BaseAmazonTestCases {
 		obj.getAddNewBankAccount().click();
 
 		// Store your parent window
-		// parentWindowHandler = driver.getWindowHandle();
+		parentWindowHandler = driver.getWindowHandle();
 		subWindowHandler = null;
 
 		// get all window handles
@@ -343,46 +352,34 @@ public class BaseAmazonTestCases {
 	}
 
 	/*
-	public void runAmazonProject() throws InterruptedException {
-
-		baseObj.getSetup();
-		baseObj.getLogin();
-		baseObj.verifyLogin();
-		baseObj.validateLogin();
-
-		itemsToSearch.add("iphone");
-		itemsToSearch.add("hp laptop");
-
-		for (int product = 0; product < itemsToSearch.size(); product++) {
-
-			baseObj.searchForItems(itemsToSearch);
-			baseObj.sortByHighToLowPrice();
-			baseObj.getTotalPageNumber();
-			baseObj.getCurrentPage();
-			baseObj.findAllItemsOnPageOne();
-			baseObj.getHighAndLowPrices();
-			baseObj.sortByLowToHighPrice();
-
-			specificItemsToSearch.add("iPhone X");
-			specificItemsToSearch.add("Elitebook");
-			
-			for (int specificProduct = 0; specificProduct < specificItemsToSearch.size();) {
-				baseObj.findAllOccuranceOfASpecifProduct(specificItemsToSearch);
-				baseObj.viewItemDetails();
-				baseObj.addAnItemToCart();
-				baseObj.clickOnHomeButton();
-				break;
-			}
-			baseObj.clickOnCart();
-			baseObj.proceedToPayment();
-			baseObj.changePaymentType();
-			baseObj.addNewPayment();
-			baseObj.confirmationMessage();
-			baseObj.goBackToLandingPage();
-			baseObj.tearDown();
-
-		}
-
-	}
-	*/
+	 * public void runAmazonProject() throws InterruptedException {
+	 * 
+	 * baseObj.getSetup(); baseObj.getLogin(); baseObj.verifyLogin();
+	 * baseObj.validateLogin();
+	 * 
+	 * itemsToSearch.add("iphone"); itemsToSearch.add("hp laptop");
+	 * 
+	 * for (int product = 0; product < itemsToSearch.size(); product++) {
+	 * 
+	 * baseObj.searchForItems(itemsToSearch); baseObj.sortByHighToLowPrice();
+	 * baseObj.getTotalPageNumber(); baseObj.getCurrentPage();
+	 * baseObj.findAllItemsOnPageOne(); baseObj.getHighAndLowPrices();
+	 * baseObj.sortByLowToHighPrice();
+	 * 
+	 * specificItemsToSearch.add("iPhone X");
+	 * specificItemsToSearch.add("Elitebook");
+	 * 
+	 * for (int specificProduct = 0; specificProduct <
+	 * specificItemsToSearch.size();) {
+	 * baseObj.findAllOccuranceOfASpecifProduct(specificItemsToSearch);
+	 * baseObj.viewItemDetails(); baseObj.addAnItemToCart();
+	 * baseObj.clickOnHomeButton(); break; } baseObj.clickOnCart();
+	 * baseObj.proceedToPayment(); baseObj.changePaymentType();
+	 * baseObj.addNewPayment(); baseObj.confirmationMessage();
+	 * baseObj.goBackToLandingPage(); baseObj.tearDown();
+	 * 
+	 * }
+	 * 
+	 * }
+	 */
 }

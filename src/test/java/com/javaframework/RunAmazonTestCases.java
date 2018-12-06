@@ -21,28 +21,24 @@ public class RunAmazonTestCases {
 		itemsToSearch.add("iphone");
 		itemsToSearch.add("hp laptop");
 
+		specificItemsToSearch.add("iPhone X");
+		specificItemsToSearch.add("Elitebook");		
+
 		for (int product = 0; product < itemsToSearch.size(); product++) {
 
-			baseObj.searchForItems(itemsToSearch);
+			baseObj.searchForItems(itemsToSearch.get(product));
 			baseObj.sortByHighToLowPrice();
 			baseObj.getTotalPageNumber();
 			baseObj.getCurrentPage();
 			baseObj.findAllItemsOnPageOne();
 			baseObj.getHighAndLowPrices();
 			baseObj.sortByLowToHighPrice();
-
-			specificItemsToSearch.add("iPhone X");
-			specificItemsToSearch.add("Elitebook");
-
-			for (int specificProduct = 0; specificProduct < specificItemsToSearch.size();) {
-				baseObj.findAllOccuranceOfASpecifProduct(specificItemsToSearch);
-				baseObj.viewItemDetails();
-				baseObj.addAnItemToCart();
-				baseObj.clickOnHomeButton();
-				break;
-			}
-
+			baseObj.findAllOccuranceOfASpecifProduct(specificItemsToSearch.get(product));
+			baseObj.viewItemDetails();
+			baseObj.addAnItemToCart();
+			baseObj.getRidOfWarrenty();
 		}
+
 		baseObj.clickOnCart();
 		baseObj.proceedToPayment();
 		baseObj.changePaymentType();

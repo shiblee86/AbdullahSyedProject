@@ -8,8 +8,8 @@ import org.openqa.selenium.support.FindBy;
 public class PageFactoryLoginXpath {
 
 	private String URL = "https://www.amazon.com/";
-	private String userName = "syed.r.abdullah@gmail.com";
-	private String pass = "$Sa038575";
+	private String userName = "jamjam.jamal2018@gmail.com";
+	private String pass = "$Forest04123";
 	
 	private String nameOnAccountString = "Syed R. Abdullah";
 	public String getNameOnAccountString() {
@@ -51,7 +51,7 @@ public class PageFactoryLoginXpath {
 	@FindBy(xpath = "//*[contains(@id,'signInSubmit')]")
 	private WebElement signIn;
 
-	@FindBy(xpath = "//*[contains(text(),'Hi, Syed')]")
+	@FindBy(xpath = "//*[contains(text(),'Hi, Jamjam')]")
 	private WebElement userNameAfterLogin;
 	
 	@FindBy(css = "#twotabsearchtextbox")
@@ -161,6 +161,13 @@ public class PageFactoryLoginXpath {
 		return addNewBankAccount;
 	}
 	
+	@FindBy(css=".a-popover-header-content")
+	private WebElement warrentyPopup;
+	
+	public WebElement getWarrentyPopup() {
+		return warrentyPopup;
+	}
+	
 	@FindBy(xpath="//*[contains(@class,'a-popover a-popover-modal')]")
 	private WebElement newBankAccountPopup;
 	
@@ -224,7 +231,12 @@ public class PageFactoryLoginXpath {
 	@FindBy(xpath="//*[contains(@class,'a-list-link')]//li//a")
 	private List<WebElement> stateList;
 	*/
+	@FindBy(css="#siNoCoverage-announce")
+	private WebElement noThanksToWarrenty;
 	
+	public WebElement clickNoThanksToWarrenty() {
+		return noThanksToWarrenty;
+	}
 	@FindBy(css=".a-dropdown-link")
 	private List<WebElement> stateList;
 	
