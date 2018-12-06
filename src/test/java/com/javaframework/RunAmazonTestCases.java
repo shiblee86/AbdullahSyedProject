@@ -41,14 +41,14 @@ public class RunAmazonTestCases {
 				baseObj.clickOnHomeButton();
 				break;
 			}
-			baseObj.clickOnCart();
-			baseObj.proceedToPayment();
-			baseObj.changePaymentType();
-			baseObj.addNewPayment();
-			baseObj.confirmationMessage();
-			baseObj.goBackToLandingPage();
-			baseObj.tearDown();
 
 		}
+		baseObj.clickOnCart();
+		baseObj.proceedToPayment();
+		baseObj.changePaymentType();
+		baseObj.addNewPayment();
+		baseObj.confirmationMessage();
+		baseObj.goBackToLandingPage();
+		baseObj.tearDown();
 	}
 }
