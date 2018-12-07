@@ -63,7 +63,7 @@ public class BaseAmazonTestCases {
 		obj = PageFactory.initElements(driver, PageFactoryLoginXpath.class);
 		color = new Highlighter(driver);
 		driver.navigate().to(obj.getURL());
-		driver.manage().window().maximize();
+		//driver.manage().window().maximize();
 	}
 
 	/** User Logs into the app */
@@ -108,10 +108,14 @@ public class BaseAmazonTestCases {
 
 	}
 
-	/** Searching for an item */
-	public void searchForItems(String productName) {
+	/** Searching for an item 
+	 * @throws InterruptedException */
+	public void searchForItems(String productName) throws InterruptedException {
+		
 		obj.searchForItems().sendKeys(productName);
 		obj.searchForItems().submit();
+		driver.navigate().refresh();
+		Thread.sleep(5000);
 	}
 
 	/** Sort by price high to low */
@@ -123,8 +127,11 @@ public class BaseAmazonTestCases {
 		sortDropDown.selectByValue("price-desc-rank");
 	}
 
-	/** Find total page number */
-	public void getTotalPageNumber() {
+	/** Find total page number 
+	 * @throws InterruptedException */
+	public void getTotalPageNumber() throws InterruptedException {
+		driver.navigate().refresh();
+		Thread.sleep(5000);
 		wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getLastPage()));
 		System.out.println("-----------------------------------------------------------------------------------------");
@@ -254,12 +261,6 @@ public class BaseAmazonTestCases {
 		obj.getCartButton().click();
 	}
 
-	/** User Clicks on the Home icon */
-	public void getOutOfCheckoutAndSearch() {
-		obj.getAmazonLogoOnChekoutPage().click();
-		obj.getReturnToCart().click();
-	}
-
 	/** If warranty pop-up appears */
 	public void getRidOfWarrenty() throws Throwable {
 		obj.getAddToCartButton().click();
@@ -269,7 +270,7 @@ public class BaseAmazonTestCases {
 		} catch (NoSuchElementException | ElementNotVisibleException e) {
 
 		}
-		obj.getProceedToCheckoutButton().click();
+		obj.getCartButton().click();
 	}
 
 	/** Proceed to payment */

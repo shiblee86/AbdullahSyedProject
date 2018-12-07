@@ -79,7 +79,7 @@ public class PageFactoryLoginXpath {
 	}
 	
 	
-	@FindBy(xpath="(//*[contains(@class,'nav-a nav-a-2')])[5]")
+	@FindBy(xpath="(//*[contains(@class,'nav-a-2')])[5]")
 	private WebElement cartButton;
 	
 	public WebElement getCartButton() {
@@ -155,7 +155,7 @@ public class PageFactoryLoginXpath {
 		return addToCartButton;
 	}
 	
-	@FindBy(xpath="//*[contains(@class,'s_checkout')]")
+	@FindBy(name="proceedToCheckout")
 	private WebElement proceedToCheckoutButton;
 	
 	public WebElement getProceedToCheckoutButton() {

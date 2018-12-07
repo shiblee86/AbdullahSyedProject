@@ -15,14 +15,14 @@ public class RunAmazonTestCases {
 		BaseAmazonTestCases baseObj = new BaseAmazonTestCases();
 		baseObj.getSetup();
 		baseObj.getLogin();
-		//baseObj.verifyLogin();
-		//baseObj.validateLogin();
+		// baseObj.verifyLogin();
+		// baseObj.validateLogin();
 
 		itemsToSearch.add("iphone");
 		itemsToSearch.add("hp laptop");
 
 		specificItemsToSearch.add("iPhone X");
-		specificItemsToSearch.add("Elitebook");		
+		specificItemsToSearch.add("Elitebook");
 
 		for (int product = 0; product < itemsToSearch.size(); product++) {
 
@@ -36,10 +36,8 @@ public class RunAmazonTestCases {
 			baseObj.findAllOccuranceOfASpecifProduct(specificItemsToSearch.get(product));
 			baseObj.viewItemDetails();
 			baseObj.getRidOfWarrenty();
-			baseObj.getOutOfCheckoutAndSearch();
 		}
 
-		baseObj.clickOnCart();
 		baseObj.proceedToPayment();
 		baseObj.changePaymentType();
 		baseObj.addNewPayment();
