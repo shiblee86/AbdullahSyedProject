@@ -155,7 +155,8 @@ public class PageFactoryLoginXpath {
 		return addToCartButton;
 	}
 	
-	@FindBy(name="proceedToCheckout")
+	//@FindBy(xpath="(//*[contains(@id,'hlb-ptc-btn-native')])[1]")
+	@FindBy(xpath="(//*[contains(@class,'a-button-inner')])[2]")
 	private WebElement proceedToCheckoutButton;
 	
 	public WebElement getProceedToCheckoutButton() {
@@ -176,7 +177,7 @@ public class PageFactoryLoginXpath {
 		return addNewBankAccount;
 	}
 	
-	@FindBy(css=".a-popover-header-content")
+	@FindBy(css=".a-popover-modal")
 	private WebElement warrentyPopup;
 	
 	public WebElement getWarrentyPopup() {
@@ -235,14 +236,14 @@ public class PageFactoryLoginXpath {
 		return paymentFailureValidationMessage;
 	}
 	
-	@FindBy(xpath="(//*[contains(@class,'a-dropdown-prompt')])[16]")
+	@FindBy(xpath="(//*[contains(@class,'a-declarative')])[140]")
 	private WebElement stateDropdownButton;
 	
 	public WebElement getStateDropdown() {
 		return stateDropdownButton;
 	}
 	
-	@FindBy (xpath="//*[contains(@id,'siNoCoverage-announce']")
+	@FindBy (css="#siNoCoverage-announce")
 	private WebElement noThanksToWarrenty;
 	
 	public WebElement clickNoThanksToWarrenty() {
