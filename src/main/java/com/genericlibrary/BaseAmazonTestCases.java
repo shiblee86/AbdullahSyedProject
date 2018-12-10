@@ -37,7 +37,7 @@ public class BaseAmazonTestCases {
 	String subWindowHandler;
 
 	WebDriverWait wait;
-	
+
 	Alert alert;
 
 	/**
@@ -276,38 +276,16 @@ public class BaseAmazonTestCases {
 		obj.getAddToCartButton().click();
 		Thread.sleep(2000);
 		try {
-
-			// Store your parent window
-			parentWindowHandler = driver.getWindowHandle();
-			subWindowHandler = null;
-
-			// get all window handles
-			Set<String> handles = driver.getWindowHandles();
-			Iterator<String> iterator = handles.iterator();
-			while (iterator.hasNext()) {
-				subWindowHandler = iterator.next();
-
-			}
-			driver.switchTo().window(subWindowHandler); // switch to popup window
-			
-			Thread.sleep(5000);
-			
-			//alert = driver.switchTo().alert();
-			//driver.switchTo().alert().dismiss();
 			obj.clickNoThanksToWarrenty().click();
-
-			driver.switchTo().window(parentWindowHandler); // switch back to parent window
-			driver.navigate().to(obj.getURL());
-
 		} catch (NoSuchElementException | ElementNotVisibleException e) {
-
+			System.out.println("No protection plan is offered");
 		}
 		obj.getCartButton().click();
 	}
 
 	/** Proceed to payment */
 	public void proceedToPayment() throws InterruptedException {
-	    Thread.sleep(3000);
+		Thread.sleep(3000);
 		wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getProceedToCheckoutButton()));
 		obj.getProceedToCheckoutButton().click();
@@ -315,8 +293,8 @@ public class BaseAmazonTestCases {
 
 	/** Change payment type */
 	public void changePaymentType() throws InterruptedException {
-		//wait = new WebDriverWait(driver, 5);
-		//wait.until(ExpectedConditions.visibilityOf(obj.getChangePaymentType()));
+		// wait = new WebDriverWait(driver, 5);
+		// wait.until(ExpectedConditions.visibilityOf(obj.getChangePaymentType()));
 		obj.getChangePaymentType().click();
 	}
 

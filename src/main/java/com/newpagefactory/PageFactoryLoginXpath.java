@@ -155,8 +155,8 @@ public class PageFactoryLoginXpath {
 		return addToCartButton;
 	}
 	
-	//@FindBy(xpath="(//*[contains(@id,'hlb-ptc-btn-native')])[1]")
-	@FindBy(xpath="(//*[contains(@class,'a-button-inner')])[2]")
+	@FindBy(xpath="//*[contains(text(),'Proceed to checkout')]//preceding-sibling::input")
+	//@FindBy(xpath="(//*[contains(@class,'a-button-inner')])[2]/a")
 	private WebElement proceedToCheckoutButton;
 	
 	public WebElement getProceedToCheckoutButton() {
