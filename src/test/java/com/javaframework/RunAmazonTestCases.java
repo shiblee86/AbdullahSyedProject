@@ -35,7 +35,7 @@ public class RunAmazonTestCases {
 			baseObj.sortByLowToHighPrice();
 			baseObj.findAllOccuranceOfASpecifProduct(specificItemsToSearch.get(product));
 			baseObj.viewItemDetails();
-			baseObj.getRidOfWarrenty();
+			baseObj.clickNoOnProtectionPlan();
 		}
 
 		baseObj.proceedToPayment();

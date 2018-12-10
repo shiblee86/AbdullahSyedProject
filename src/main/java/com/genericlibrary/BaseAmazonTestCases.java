@@ -1,17 +1,13 @@
 package com.genericlibrary;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -29,16 +25,14 @@ public class BaseAmazonTestCases {
 	WebDriver driver;
 	PageFactoryLoginXpath obj;
 	Highlighter color;
+
 	List<String> productList = new ArrayList<>();
 	List<String> pricePerItemTable = new ArrayList<>();
-	Actions action;
 
 	String parentWindowHandler;
 	String subWindowHandler;
 
 	WebDriverWait wait;
-
-	Alert alert;
 
 	/**
 	 * Method getSetup() will declare browser driver and dictate pc to launch
@@ -118,7 +112,7 @@ public class BaseAmazonTestCases {
 	 * @throws InterruptedException
 	 */
 	public void searchForItems(String productName) throws InterruptedException {
-
+		color.drawBorder(obj.searchForItems(), "orange");
 		obj.searchForItems().sendKeys(productName);
 		obj.searchForItems().submit();
 		driver.navigate().refresh();
@@ -130,6 +124,7 @@ public class BaseAmazonTestCases {
 		wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getSortBy()));
 
+		color.drawBorder(obj.getSortBy(), "cyan");
 		Select sortDropDown = new Select(obj.getSortBy());
 		sortDropDown.selectByValue("price-desc-rank");
 	}
@@ -145,6 +140,7 @@ public class BaseAmazonTestCases {
 		wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getLastPage()));
 		System.out.println("-----------------------------------------------------------------------------------------");
+		color.drawBorder(obj.getLastPage(), "red");
 		System.err.println("The last page number is ::\n" + obj.getLastPage().getText()
 				+ "\n-----------------------------------------------------------------------------------------");
 	}
@@ -199,12 +195,26 @@ public class BaseAmazonTestCases {
 				+ "\n+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
 	}
 
+	/** Sort by low to high price */
+	public void sortByLowToHighPrice() throws InterruptedException {
+		wait = new WebDriverWait(driver, 5);
+		wait.until(ExpectedConditions.visibilityOf(obj.getSortBy()));
+		color.drawBorder(obj.getSortBy(), "cyan");
+		Select sortDropDown = new Select(obj.getSortBy());
+		sortDropDown.selectByValue("price-asc-rank");
+		Thread.sleep(6000);
+	}
+
 	/** Find High and Low prices */
-	public void getHighAndLowPrices() {
+	public void getHighAndLowPrices() throws Throwable {
 		// Converting WebElement dollar to float
 		List<Float> storeDollarValue = new ArrayList<>();
 		for (WebElement dollarPrice : obj.getDollarPriceOfItem()) {
-			storeDollarValue.add(Float.parseFloat(dollarPrice.getText().trim().replaceAll(",", "")));
+			try {
+				storeDollarValue.add(Float.parseFloat(dollarPrice.getText().trim().replaceAll(",", "")));
+			} catch (Exception $error) {
+				System.out.println($error);
+			}
 		}
 		System.out.println("Price of item in Dollar --> Float ::\n++++++++++++++++++++++++++++++++++++++++++++");
 		for (int j = 0; j < storeDollarValue.size(); j++) {
@@ -217,7 +227,11 @@ public class BaseAmazonTestCases {
 
 		System.out.println("Price of item in Cent --> Flaot ::\n ++++++++++++++++++++++++++++++++++++++++++++++++");
 		for (WebElement centPrice : obj.getCentsPriceOfItem()) {
-			storeCentValue.add((Float.parseFloat(centPrice.getText().trim().replaceAll(",", "")) / 100));
+			try {
+				storeCentValue.add((Float.parseFloat(centPrice.getText().trim().replaceAll(",", "")) / 100));
+			} catch (Exception error) {
+				System.out.println(error);
+			}
 		}
 		for (int i = 0; i < storeCentValue.size(); i++) {
 			System.out.println(storeCentValue.get(i) + "\n.....");
@@ -229,6 +243,11 @@ public class BaseAmazonTestCases {
 		for (int p = 0; p < storeDollarValue.size(); p++) {
 			float dollarValue = storeDollarValue.get(p);
 			float centValue;
+			if (storeDollarValue.get(p) != null) {
+				dollarValue = storeDollarValue.get(p);
+			} else {
+				dollarValue = 0.0f;
+			}
 			if (storeCentValue.get(p) != null) {
 				centValue = storeCentValue.get(p);
 			} else {
@@ -245,17 +264,12 @@ public class BaseAmazonTestCases {
 				"*****************************************************************************************************");
 	}
 
-	/** Sort by low to high price */
-	public void sortByLowToHighPrice() throws InterruptedException {
-		wait = new WebDriverWait(driver, 5);
-		wait.until(ExpectedConditions.visibilityOf(obj.getSortBy()));
-		Select sortDropDown = new Select(obj.getSortBy());
-		sortDropDown.selectByValue("price-asc-rank");
-		Thread.sleep(6000);
-	}
-
 	/** View item details */
 	public void viewItemDetails() {
+
+		wait = new WebDriverWait(driver, 5);
+		wait.until(ExpectedConditions.visibilityOf(obj.getViewItem()));
+		color.drawBorder(obj.getViewItem(), "blue");
 		obj.getViewItem().click();
 	}
 
@@ -263,38 +277,64 @@ public class BaseAmazonTestCases {
 	public void addAnItemToCart() {
 		wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getAddToCartButton()));
+
+		color.drawBorder(obj.getAddToCartButton(), "black");
 		obj.getAddToCartButton().click();
 	}
 
 	/** User clicks on cart button */
 	public void clickOnCart() {
-		obj.getCartButton().click();
+
+		color.drawBorder(obj.getProductCountResult(), "blue");
+		obj.getProductCountResult().click();
+
 	}
 
 	/** If warranty pop-up appears */
-	public void getRidOfWarrenty() throws Throwable {
+	public void clickNoOnProtectionPlan() throws Throwable {
 		obj.getAddToCartButton().click();
 		Thread.sleep(2000);
 		try {
+			color.drawBorder(obj.clickNoThanksToWarrenty(), "green");
 			obj.clickNoThanksToWarrenty().click();
 		} catch (NoSuchElementException | ElementNotVisibleException e) {
 			System.out.println("No protection plan is offered");
 		}
-		obj.getCartButton().click();
+		try {
+			color.drawBorder(obj.clickonCartButton(), "magenta");
+			obj.clickonCartButton().click();
+		} catch (NoSuchElementException | ElementNotVisibleException error) {
+			System.out.println(error);
+		}
+		try {
+			color.drawBorder(obj.getCartOnProtectionPlanPage(), "black");
+			obj.getCartOnProtectionPlanPage().click();
+		} catch (NoSuchElementException | ElementNotVisibleException error2) {
+			System.out.println(error2);
+		}
+		obj.getProceedToCheckoutButton();
 	}
 
 	/** Proceed to payment */
 	public void proceedToPayment() throws InterruptedException {
 		Thread.sleep(3000);
-		wait = new WebDriverWait(driver, 5);
-		wait.until(ExpectedConditions.visibilityOf(obj.getProceedToCheckoutButton()));
-		obj.getProceedToCheckoutButton().click();
+		try {
+			wait = new WebDriverWait(driver, 5);
+			wait.until(ExpectedConditions.visibilityOf(obj.getProceedToCheckoutButton()));
+
+			color.drawBorder(obj.getProceedToCheckoutButton(), "orange");
+			obj.getProceedToCheckoutButton().click();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 
 	/** Change payment type */
 	public void changePaymentType() throws InterruptedException {
-		// wait = new WebDriverWait(driver, 5);
-		// wait.until(ExpectedConditions.visibilityOf(obj.getChangePaymentType()));
+		wait = new WebDriverWait(driver, 5);
+		wait.until(ExpectedConditions.visibilityOf(obj.getChangePaymentType()));
+
+		color.drawBorder(obj.getChangePaymentType(), "black");
 		obj.getChangePaymentType().click();
 	}
 
@@ -305,38 +345,55 @@ public class BaseAmazonTestCases {
 		color.drawBorder(obj.getAddNewBankAccount(), "orange");
 		obj.getAddNewBankAccount().click();
 
-		// Store your parent window
-		parentWindowHandler = driver.getWindowHandle();
-		subWindowHandler = null;
+		/*
+		 * // Store your parent window parentWindowHandler = driver.getWindowHandle();
+		 * subWindowHandler = null;
+		 * 
+		 * // get all window handles Set<String> handles = driver.getWindowHandles();
+		 * Iterator<String> iterator = handles.iterator(); while (iterator.hasNext()) {
+		 * subWindowHandler = iterator.next(); }
+		 * driver.switchTo().window(subWindowHandler); // switch to popup window
+		 * 
+		 * // Now you are in the popup window, perform necessary actions here // Now you
+		 * are in the popup window, perform necessary actions here
+		 * 
+		 * // driver.switchTo().window(parentWindowHandler); // switch back to parent //
+		 * window
+		 * 
+		 */
+		try {
+			color.drawBorder(obj.getNameOnBank(), "blue");
+			obj.getNameOnBank().sendKeys(obj.getNameOnAccountString());
+			color.drawBorder(obj.getBankRoutingNumber(), "blue");
+			obj.getBankRoutingNumber().sendKeys(obj.getBankRountingNumberInt());
+			color.drawBorder(obj.getReEnterCheckingAccountNumber(), "blue");
+			obj.getReEnterCheckingAccountNumber().sendKeys(obj.getReEnterCheckingAccountNumberInt());
+			color.drawBorder(obj.getDrLicenseNumber(), "blue");
+			obj.getDrLicenseNumber().sendKeys(obj.getDriverLincenseInt());
+			color.drawBorder(obj.getStateDropdown(), "blue");
+			obj.getStateDropdown().click();
 
-		// get all window handles
-		Set<String> handles = driver.getWindowHandles();
-		Iterator<String> iterator = handles.iterator();
-		while (iterator.hasNext()) {
-			subWindowHandler = iterator.next();
-		}
-		driver.switchTo().window(subWindowHandler); // switch to popup window
-
-		// Now you are in the popup window, perform necessary actions here
-		obj.getNameOnBank().sendKeys(obj.getNameOnAccountString());
-		obj.getBankRoutingNumber().sendKeys(obj.getBankRountingNumberInt());
-		obj.getReEnterCheckingAccountNumber().sendKeys(obj.getReEnterCheckingAccountNumberInt());
-		obj.getDrLicenseNumber().sendKeys(obj.getDriverLincenseInt());
-		obj.getStateDropdown().click();
-
-		for (WebElement selectState : obj.getStateList()) {
-			Thread.sleep(1000);
-			if (selectState.getText().equalsIgnoreCase("NY")) {
-				selectState.click();
+			for (WebElement selectState : obj.getStateList()) {
+				Thread.sleep(1000);
+				if (selectState.getText().equalsIgnoreCase("NY")) {
+					color.drawBorder(selectState, "blue");
+					selectState.click();
+				}
 			}
+		} catch (NoSuchElementException | ElementNotVisibleException e) {
+			System.out.println("State dropdown not available");
+
 		}
+		driver.navigate().to(obj.getURL());
 
 	}
 
 	/** Confirmation message for new payment type */
 	public void confirmationMessage() {
 
+		color.drawBorder(obj.getAddThisCheckingAccount(), "orange");
 		obj.getAddThisCheckingAccount().click();
+		color.drawBorder(obj.getPaymentFailureValidationMessage(), "red");
 		if (obj.getPaymentFailureValidationMessage().getText().equalsIgnoreCase("There was a problem")) {
 			System.out.println("Adding payment failed. Test Passed.");
 		} else {
@@ -351,10 +408,7 @@ public class BaseAmazonTestCases {
 	}
 
 	public void goBackToLandingPage() {
-		// Now you are in the popup window, perform necessary actions here
-		// parentWindowHandler = driver.getWindowHandle();
-		// subWindowHandler = null;
-		driver.switchTo().window(parentWindowHandler); // switch back to parent window
+
 		driver.navigate().to(obj.getURL());
 
 	}
