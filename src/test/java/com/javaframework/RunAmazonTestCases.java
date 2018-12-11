@@ -37,7 +37,7 @@ public class RunAmazonTestCases {
 			baseObj.viewItemDetails();
 			baseObj.clickNoOnProtectionPlan();
 		}
-
+		baseObj.clickOnAnyCartButton();
 		baseObj.proceedToPayment();
 		baseObj.changePaymentType();
 		baseObj.addNewPayment();

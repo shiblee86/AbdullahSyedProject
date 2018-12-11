@@ -295,11 +295,16 @@ public class BaseAmazonTestCases {
 		obj.getAddToCartButton().click();
 		Thread.sleep(2000);
 		try {
+			wait = new WebDriverWait(driver, 5);
+			wait.until(ExpectedConditions.visibilityOf(obj.clickNoThanksToWarrenty()));
 			color.drawBorder(obj.clickNoThanksToWarrenty(), "green");
 			obj.clickNoThanksToWarrenty().click();
 		} catch (NoSuchElementException | ElementNotVisibleException e) {
 			System.out.println("No protection plan is offered");
 		}
+	}
+		
+		public void clickOnAnyCartButton() {
 		try {
 			color.drawBorder(obj.clickonCartButton(), "magenta");
 			obj.clickonCartButton().click();
@@ -312,8 +317,9 @@ public class BaseAmazonTestCases {
 		} catch (NoSuchElementException | ElementNotVisibleException error2) {
 			System.out.println(error2);
 		}
-		obj.getProceedToCheckoutButton();
+		obj.clickOnroceedToCheckOutAfteraddingFirstItem().click();
 	}
+	
 
 	/** Proceed to payment */
 	public void proceedToPayment() throws InterruptedException {

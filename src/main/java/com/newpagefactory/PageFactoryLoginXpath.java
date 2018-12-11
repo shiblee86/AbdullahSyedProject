@@ -65,21 +65,9 @@ public class PageFactoryLoginXpath {
 	@FindBy(css = "#s-result-count")
 	private WebElement productCountResult;
 
-	@FindBy(css = ".a-icon-logo")
-	private WebElement amazonLogoOnCheckoutPage;
 
-	public WebElement getAmazonLogoOnChekoutPage() {
-		return amazonLogoOnCheckoutPage;
-	}
 
-	@FindBy(css = "#a-autoid-1-announce")
-	private WebElement returnToCart;
-
-	public WebElement getReturnToCart() {
-		return returnToCart;
-	}
-
-	@FindBy(xpath = "(//*[contains(text(),'Cart')])[4]")
+	@FindBy(css="#nav-cart-count")
 	private WebElement cartButton;
 
 	public WebElement clickonCartButton() {
@@ -89,12 +77,19 @@ public class PageFactoryLoginXpath {
 	public WebElement getProductCountResult() {
 		return productCountResult;
 	}
+	
+	@FindBy(xpath="//*[contains(@class,'hlb-checkout-button')]")
+	private WebElement proceedToCheckOutAfteraddingFirstItem;
+	
+	public WebElement clickOnroceedToCheckOutAfteraddingFirstItem() {
+		return proceedToCheckOutAfteraddingFirstItem;
+	}
 
 	public WebElement getSortBy() {
 		return sortBy;
 	}
 
-	@FindBy(xpath = "(//*[contains(@class,'a-button-input')])[1]")
+	@FindBy(xpath = "//*[contains(@id,'attach-sidesheet-view-cart-button')]")
 	private WebElement cartOnProtectionPlanPage;
 
 	public WebElement getCartOnProtectionPlanPage() {
