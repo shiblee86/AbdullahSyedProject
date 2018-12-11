@@ -295,23 +295,28 @@ public class BaseAmazonTestCases {
 		obj.getAddToCartButton().click();
 		Thread.sleep(2000);
 		try {
-			wait = new WebDriverWait(driver, 5);
-			wait.until(ExpectedConditions.visibilityOf(obj.clickNoThanksToWarrenty()));
 			color.drawBorder(obj.clickNoThanksToWarrenty(), "green");
 			obj.clickNoThanksToWarrenty().click();
 		} catch (NoSuchElementException | ElementNotVisibleException e) {
 			System.out.println("No protection plan is offered");
 		}
 	}
-		
-		public void clickOnAnyCartButton() {
+
+	/** User clicks on Cart Button after adding a product */
+	public void clickOnAnyCartButton() throws InterruptedException {
+		Thread.sleep(2000);
 		try {
+			wait = new WebDriverWait(driver, 5);
+			wait.until(ExpectedConditions.visibilityOf(obj.clickonCartButton()));
 			color.drawBorder(obj.clickonCartButton(), "magenta");
 			obj.clickonCartButton().click();
 		} catch (NoSuchElementException | ElementNotVisibleException error) {
 			System.out.println(error);
 		}
 		try {
+			Thread.sleep(3000);
+			wait = new WebDriverWait(driver, 5);
+			wait.until(ExpectedConditions.visibilityOf(obj.getCartOnProtectionPlanPage()));
 			color.drawBorder(obj.getCartOnProtectionPlanPage(), "black");
 			obj.getCartOnProtectionPlanPage().click();
 		} catch (NoSuchElementException | ElementNotVisibleException error2) {
@@ -319,7 +324,6 @@ public class BaseAmazonTestCases {
 		}
 		obj.clickOnroceedToCheckOutAfteraddingFirstItem().click();
 	}
-	
 
 	/** Proceed to payment */
 	public void proceedToPayment() throws InterruptedException {
@@ -351,9 +355,10 @@ public class BaseAmazonTestCases {
 		color.drawBorder(obj.getAddNewBankAccount(), "orange");
 		obj.getAddNewBankAccount().click();
 
-		/*
-		 * // Store your parent window parentWindowHandler = driver.getWindowHandle();
-		 * subWindowHandler = null;
+		/**
+		 * ------------------ How to Handle pop-up window --------- // Store your parent
+		 * window parentWindowHandler = driver.getWindowHandle(); subWindowHandler =
+		 * null;
 		 * 
 		 * // get all window handles Set<String> handles = driver.getWindowHandles();
 		 * Iterator<String> iterator = handles.iterator(); while (iterator.hasNext()) {

@@ -65,9 +65,7 @@ public class PageFactoryLoginXpath {
 	@FindBy(css = "#s-result-count")
 	private WebElement productCountResult;
 
-
-
-	@FindBy(css="#nav-cart-count")
+	@FindBy(css = "#nav-cart-count")
 	private WebElement cartButton;
 
 	public WebElement clickonCartButton() {
@@ -77,10 +75,10 @@ public class PageFactoryLoginXpath {
 	public WebElement getProductCountResult() {
 		return productCountResult;
 	}
-	
-	@FindBy(xpath="//*[contains(@class,'hlb-checkout-button')]")
+
+	@FindBy(xpath = "//*[contains(@class,'hlb-checkout-button')]")
 	private WebElement proceedToCheckOutAfteraddingFirstItem;
-	
+
 	public WebElement clickOnroceedToCheckOutAfteraddingFirstItem() {
 		return proceedToCheckOutAfteraddingFirstItem;
 	}
@@ -89,7 +87,7 @@ public class PageFactoryLoginXpath {
 		return sortBy;
 	}
 
-	@FindBy(xpath = "//*[contains(@id,'attach-sidesheet-view-cart-button')]")
+	@FindBy(xpath = "(//span[contains(text(), 'Proceed to checkout')]//parent::span//preceding-sibling::input)[1]")
 	private WebElement cartOnProtectionPlanPage;
 
 	public WebElement getCartOnProtectionPlanPage() {
