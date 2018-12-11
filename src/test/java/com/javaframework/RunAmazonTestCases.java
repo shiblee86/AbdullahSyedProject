@@ -15,8 +15,8 @@ public class RunAmazonTestCases {
 		BaseAmazonTestCases baseObj = new BaseAmazonTestCases();
 		baseObj.getSetup();
 		baseObj.getLogin();
-		// baseObj.verifyLogin();
-		// baseObj.validateLogin();
+		baseObj.verifyLogin();
+		baseObj.validateLogin();
 
 		itemsToSearch.add("iphone");
 		itemsToSearch.add("hp laptop");
@@ -40,8 +40,10 @@ public class RunAmazonTestCases {
 		baseObj.proceedToCheckout();
 		baseObj.changePaymentType();
 		baseObj.addNewPayment();
-		baseObj.confirmationMessage();
+		baseObj.getConfirmationMessage();
+		baseObj.returnBackToCart();
+		baseObj.deleteItemsFromCart();
 		baseObj.goBackToLandingPage();
-		baseObj.tearDown();
+		baseObj.closeAndExitBrowser();
 	}
 }
