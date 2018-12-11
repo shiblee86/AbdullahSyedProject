@@ -282,13 +282,14 @@ public class BaseAmazonTestCases {
 		obj.getAddToCartButton().click();
 	}
 
-	/** User clicks on cart button */
-	public void clickOnCart() {
-
-		color.drawBorder(obj.getProductCountResult(), "blue");
-		obj.getProductCountResult().click();
-
-	}
+	/**
+	 * User clicks on cart button public void clickOnCart() {
+	 * 
+	 * color.drawBorder(obj.getProductCountResult(), "blue");
+	 * obj.getProductCountResult().click();
+	 * 
+	 * }
+	 */
 
 	/** If warranty pop-up appears */
 	public void clickNoOnProtectionPlan() throws Throwable {
@@ -302,31 +303,30 @@ public class BaseAmazonTestCases {
 		}
 	}
 
-	/** User clicks on Cart Button after adding a product */
-	public void clickOnAnyCartButton() throws InterruptedException {
-		Thread.sleep(2000);
-		try {
-			wait = new WebDriverWait(driver, 5);
-			wait.until(ExpectedConditions.visibilityOf(obj.clickonCartButton()));
-			color.drawBorder(obj.clickonCartButton(), "magenta");
-			obj.clickonCartButton().click();
-		} catch (NoSuchElementException | ElementNotVisibleException error) {
-			System.out.println(error);
-		}
-		try {
-			Thread.sleep(3000);
-			wait = new WebDriverWait(driver, 5);
-			wait.until(ExpectedConditions.visibilityOf(obj.getCartOnProtectionPlanPage()));
-			color.drawBorder(obj.getCartOnProtectionPlanPage(), "black");
-			obj.getCartOnProtectionPlanPage().click();
-		} catch (NoSuchElementException | ElementNotVisibleException error2) {
-			System.out.println(error2);
-		}
-		obj.clickOnroceedToCheckOutAfteraddingFirstItem().click();
-	}
+	/**
+	 * User clicks on Cart Button after adding a product public void
+	 * clickOnAnyCartButton() throws InterruptedException { Thread.sleep(2000); try
+	 * { wait = new WebDriverWait(driver, 5);
+	 * wait.until(ExpectedConditions.visibilityOf(obj.clickonCartButton()));
+	 * color.drawBorder(obj.clickonCartButton(), "magenta");
+	 * obj.clickonCartButton().click(); } catch (NoSuchElementException |
+	 * ElementNotVisibleException error) { System.out.println(error); } try {
+	 * Thread.sleep(3000); wait = new WebDriverWait(driver, 5);
+	 * wait.until(ExpectedConditions.visibilityOf(obj.getCartOnProtectionPlanPage()));
+	 * color.drawBorder(obj.getCartOnProtectionPlanPage(), "black");
+	 * obj.getCartOnProtectionPlanPage().click(); } catch (NoSuchElementException |
+	 * ElementNotVisibleException error2) { System.out.println(error2); }
+	 * obj.clickOnroceedToCheckOutAfteraddingFirstItem().click(); }
+	 * 
+	 * public void clickOnProceedToPayment() throws InterruptedException {
+	 * Thread.sleep(2000); try {
+	 * obj.clickOnroceedToCheckOutAfteraddingFirstItem().click(); } catch
+	 * (NoSuchElementException | ElementNotVisibleException error3) {
+	 * System.out.println("The proceed to payment button is not available"); } }
+	 */
 
 	/** Proceed to payment */
-	public void proceedToPayment() throws InterruptedException {
+	public void proceedToCheckout() throws InterruptedException {
 		Thread.sleep(3000);
 		try {
 			wait = new WebDriverWait(driver, 5);
@@ -337,6 +337,9 @@ public class BaseAmazonTestCases {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		wait = new WebDriverWait(driver, 5);
+		wait.until(ExpectedConditions.visibilityOf(obj.clickOnroceedToCheckOutAfteraddingFirstItem()));
+		obj.clickOnroceedToCheckOutAfteraddingFirstItem().click();
 	}
 
 	/** Change payment type */
@@ -382,10 +385,14 @@ public class BaseAmazonTestCases {
 			color.drawBorder(obj.getDrLicenseNumber(), "blue");
 			obj.getDrLicenseNumber().sendKeys(obj.getDriverLincenseInt());
 			color.drawBorder(obj.getStateDropdown(), "blue");
+			
+			wait = new WebDriverWait(driver, 5);
+			wait.until(ExpectedConditions.visibilityOf(obj.getStateDropdown()));
 			obj.getStateDropdown().click();
 
 			for (WebElement selectState : obj.getStateList()) {
 				Thread.sleep(1000);
+				
 				if (selectState.getText().equalsIgnoreCase("NY")) {
 					color.drawBorder(selectState, "blue");
 					selectState.click();

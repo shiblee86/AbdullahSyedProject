@@ -76,7 +76,7 @@ public class PageFactoryLoginXpath {
 		return productCountResult;
 	}
 
-	@FindBy(xpath = "//*[contains(@class,'hlb-checkout-button')]")
+	@FindBy(xpath = "(//*[contains(@class,'a-button-inner')])[4]")
 	private WebElement proceedToCheckOutAfteraddingFirstItem;
 
 	public WebElement clickOnroceedToCheckOutAfteraddingFirstItem() {
