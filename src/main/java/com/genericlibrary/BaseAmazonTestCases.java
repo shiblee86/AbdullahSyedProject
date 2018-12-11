@@ -53,8 +53,12 @@ public class BaseAmazonTestCases {
 		/** Tell Eclipse which driver to use depending on OS */
 		if (os.contains("mac")) {
 			System.setProperty("webdriver.chrome.driver", macDriverPath);
+			System.out.println(
+					"*****************************************************************************************************");
 		} else {
 			System.setProperty("webdriver.chrome.driver", winDriverPath);
+			System.out.println(
+					"*****************************************************************************************************");
 		}
 		driver = new ChromeDriver();
 		obj = PageFactory.initElements(driver, AmazonPageFactory.class);
@@ -76,6 +80,8 @@ public class BaseAmazonTestCases {
 		color.drawBorder(obj.getSignIn(), "cyan");
 		obj.getSignIn().click();
 		System.out.println("Logged into my account");
+		System.out.println(
+				"*****************************************************************************************************");
 
 	}
 
@@ -85,11 +91,17 @@ public class BaseAmazonTestCases {
 			color.drawBorder(obj.getUserNameAfterLogin(), "pink");
 			if (obj.getUserNameAfterLogin().getText().equalsIgnoreCase("Hi, Syed")) {
 				System.out.println("Login Verification Passed");
+				System.out.println(
+						"*****************************************************************************************************");
 			} else {
 				System.out.println("Login Varification Failed");
+				System.out.println(
+						"*****************************************************************************************************");
 			}
 		} catch (Exception e) {
 			System.out.println("Unable to verify Login");
+			System.out.println(
+					"*****************************************************************************************************");
 		}
 	}
 
@@ -100,8 +112,12 @@ public class BaseAmazonTestCases {
 			Assert.assertEquals(obj.getUserNameAfterLogin().getText(), "Hi, Syed");
 		} catch (AssertionError e) {
 			System.out.println("Login Validation FAILED");
+			System.out.println(
+					"*****************************************************************************************************");
 		}
 		System.out.println("Loging Validation PASSED");
+		System.out.println(
+				"*****************************************************************************************************");
 	}
 
 	/**
@@ -115,6 +131,9 @@ public class BaseAmazonTestCases {
 		obj.searchForItems().submit();
 		driver.navigate().refresh();
 		Thread.sleep(5000);
+		System.out.println("User searchs for items");
+		System.out.println(
+				"*****************************************************************************************************");
 	}
 
 	/** User sorts by price high to low */
@@ -125,6 +144,9 @@ public class BaseAmazonTestCases {
 		color.drawBorder(obj.getSortBy(), "cyan");
 		Select sortDropDown = new Select(obj.getSortBy());
 		sortDropDown.selectByValue("price-desc-rank");
+		System.out.println("User sorts item by high to low prices");
+		System.out.println(
+				"*****************************************************************************************************");
 	}
 
 	/**
@@ -201,6 +223,9 @@ public class BaseAmazonTestCases {
 		Select sortDropDown = new Select(obj.getSortBy());
 		sortDropDown.selectByValue("price-asc-rank");
 		Thread.sleep(6000);
+		System.out.println("User sorts item by low to high prices");
+		System.out.println(
+				"*****************************************************************************************************");
 	}
 
 	/** User finds High and Low prices */
@@ -427,6 +452,7 @@ public class BaseAmazonTestCases {
 					// color.drawBorder(selectState, "blue");
 					selectState.click();
 					System.out.println("User selects Bank state");
+					System.out.println(selectState.getText());
 					System.out.println(
 							"*****************************************************************************************************");
 				}
@@ -440,26 +466,38 @@ public class BaseAmazonTestCases {
 
 	}
 
-	/** User sees confirmation message for new payment type */
-	public void getConfirmationMessage() {
+	/**
+	 * User sees confirmation message for new payment type
+	 * 
+	 * @throws InterruptedException
+	 */
+	public void getConfirmationMessage() throws InterruptedException {
+		Thread.sleep(2000);
+
 		wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getAddThisCheckingAccount()));
-		wait.until(ExpectedConditions.visibilityOf(obj.getPaymentFailureValidationMessage()));
 
-		color.drawBorder(obj.getAddThisCheckingAccount(), "orange");
+		color.drawBorder(obj.getAddThisCheckingAccount(), "black");
 		obj.getAddThisCheckingAccount().click();
 		System.out.println("Add this bank account is clicked");
 		System.out.println(
 				"*****************************************************************************************************");
-		color.drawBorder(obj.getPaymentFailureValidationMessage(), "red");
-		if (obj.getPaymentFailureValidationMessage().getText().equalsIgnoreCase("There was a problem")) {
-			System.out.println("Adding payment failed. Test Passed.");
-			System.out.println(
-					"*****************************************************************************************************");
-		} else {
-			System.out.println("Account added");
-			System.out.println(
-					"*****************************************************************************************************");
+
+		Thread.sleep(3000);
+		try {
+			color.drawBorder(obj.getPaymentFailureValidationMessage(), "red");
+			if (obj.getPaymentFailureValidationMessage().getText().equalsIgnoreCase("There was a problem")) {
+				System.out.println("Adding payment failed. Test Passed.");
+				System.out.println(
+						"*****************************************************************************************************");
+			} else {
+				System.out.println("Account added");
+				System.out.println(
+						"*****************************************************************************************************");
+			}
+		} catch (Exception e) {
+			System.out.println("Account addtion confirmation is not shown");
+
 		}
 
 		// Now you are in the popup window, perform necessary actions here
@@ -467,6 +505,7 @@ public class BaseAmazonTestCases {
 		// window
 		// driver.navigate().to(obj.getURL());
 
+		Thread.sleep(2000);
 		wait.until(ExpectedConditions.visibilityOf(obj.clickOnCancelAddBankAccountButton()));
 		color.drawBorder(obj.clickOnCancelAddBankAccountButton(), "black");
 		obj.clickOnCancelAddBankAccountButton().click();
@@ -516,6 +555,8 @@ public class BaseAmazonTestCases {
 					"*****************************************************************************************************");
 		} catch (Exception e) {
 			System.out.println("Unable to delete items from cart");
+			System.out.println(
+					"*****************************************************************************************************");
 		}
 
 	}
