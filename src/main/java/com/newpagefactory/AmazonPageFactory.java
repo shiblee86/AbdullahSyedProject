@@ -321,8 +321,9 @@ public class AmazonPageFactory {
 	}
 
 	//@FindBy(xpath = "(//*[contains(@class,'a-button-inner')])[53]")
-	//@FindBy(xpath="//*[contains(@id,'addBankAccountButtonId-announce')]")
-	@FindBy(xpath="//*[contains(text(),'Add this checking account')]")
+	@FindBy(xpath="//*[contains(@id,'addBankAccountButtonId-announce')]/span/input")
+	//@FindBy(xpath="//*[contains(text(),'Add this checking account')]")
+	//@FindBy(xpath="(//span//*[contains(@class,'a-button-inner')]/span)[41]")
 	//@FindBy(css="#addBankAccountButtonId-announce")
 	private WebElement addThisCheckingAccount;
 
