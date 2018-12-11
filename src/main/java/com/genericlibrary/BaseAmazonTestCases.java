@@ -53,10 +53,12 @@ public class BaseAmazonTestCases {
 		/** Tell Eclipse which driver to use depending on OS */
 		if (os.contains("mac")) {
 			System.setProperty("webdriver.chrome.driver", macDriverPath);
+			System.out.println(macPath);
 			System.out.println(
 					"*****************************************************************************************************");
 		} else {
 			System.setProperty("webdriver.chrome.driver", winDriverPath);
+			System.out.println(winDriverPath);
 			System.out.println(
 					"*****************************************************************************************************");
 		}
