@@ -3,6 +3,7 @@ package com.genericlibrary;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -38,9 +39,13 @@ public class BaseAmazonTestCases {
 	 * Method getSetup() will declare browser driver and dictate PC to launch
 	 * browser
 	 */
+	@Test
 	public void getSetup() {
 		/** Making OS dynamic between Mac and Windows */
 		String os = System.getProperty("os.name").toLowerCase();
+		System.out.println(
+				"*****************************************************************************************************");
+		System.out.println(os);
 
 		/** Windows driver path */
 		String winPath = System.getProperty("user.dir");
@@ -53,11 +58,15 @@ public class BaseAmazonTestCases {
 		/** Tell Eclipse which driver to use depending on OS */
 		if (os.contains("mac")) {
 			System.setProperty("webdriver.chrome.driver", macDriverPath);
+			System.out.println(
+					"*****************************************************************************************************");
 			System.out.println(macPath);
 			System.out.println(
 					"*****************************************************************************************************");
 		} else {
 			System.setProperty("webdriver.chrome.driver", winDriverPath);
+			System.out.println(
+					"*****************************************************************************************************");
 			System.out.println(winDriverPath);
 			System.out.println(
 					"*****************************************************************************************************");
@@ -67,10 +76,16 @@ public class BaseAmazonTestCases {
 		color = new Highlighter(driver);
 		driver.manage().deleteAllCookies();
 		driver.navigate().to(obj.getURL());
+		System.out.println(
+				"*****************************************************************************************************");
+		System.out.println(driver.getCurrentUrl());
+		System.out.println(
+				"*****************************************************************************************************");
 		// driver.manage().window().maximize();
 	}
 
 	/** User Logs into the app */
+	@Test
 	public void getLogin() {
 		color.drawBorder(obj.getMyAccount(), "green");
 		ScreenShots.captureScreenShot(driver, "LoginPage");
@@ -88,6 +103,7 @@ public class BaseAmazonTestCases {
 	}
 
 	/** Verifying login credential of user */
+	@Test
 	public void verifyLogin() throws Throwable {
 		try {
 			color.drawBorder(obj.getUserNameAfterLogin(), "pink");
@@ -108,6 +124,7 @@ public class BaseAmazonTestCases {
 	}
 
 	/** Validating login credential of user */
+	@Test
 	public void validateLogin() {
 		color.drawBorder(obj.getUserNameAfterLogin(), "pink");
 		try {
@@ -127,6 +144,7 @@ public class BaseAmazonTestCases {
 	 * 
 	 * @throws InterruptedException
 	 */
+	@Test
 	public void searchForItems(String productName) throws InterruptedException {
 		color.drawBorder(obj.searchForItems(), "orange");
 		obj.searchForItems().sendKeys(productName);
@@ -139,6 +157,7 @@ public class BaseAmazonTestCases {
 	}
 
 	/** User sorts by price high to low */
+	@Test
 	public void sortByHighToLowPrice() {
 		wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getSortBy()));
@@ -156,6 +175,7 @@ public class BaseAmazonTestCases {
 	 * 
 	 * @throws InterruptedException
 	 */
+	@Test
 	public void getTotalPageNumber() throws InterruptedException {
 		driver.navigate().refresh();
 		Thread.sleep(5000);
@@ -168,6 +188,7 @@ public class BaseAmazonTestCases {
 	}
 
 	/** User finds current page number */
+	@Test
 	public void getCurrentPage() {
 		wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getCurrentPage()));
@@ -178,6 +199,7 @@ public class BaseAmazonTestCases {
 	}
 
 	/** User finds all product and receives a count of all products */
+	@Test
 	public void findAllItemsOnPageOne() {
 		System.out.println(
 				"ITEMS DISPLAYED ON CURRENT PAGE\n-----------------------------------------------------------------------------------------");
@@ -200,6 +222,7 @@ public class BaseAmazonTestCases {
 	}
 
 	/** User finds the total count of a specific product */
+	@Test
 	public void findAllOccuranceOfASpecifProduct(String specificProduct) {
 		List<String> totalForSpecificProduct = new ArrayList<>();
 		for (int a = 0; a < productList.size(); a++) {
@@ -218,6 +241,7 @@ public class BaseAmazonTestCases {
 	}
 
 	/** User sorts items by low to high price */
+	@Test
 	public void sortByLowToHighPrice() throws InterruptedException {
 		wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getSortBy()));
@@ -231,6 +255,7 @@ public class BaseAmazonTestCases {
 	}
 
 	/** User finds High and Low prices */
+	@Test
 	public void getHighAndLowPrices() throws Throwable {
 		// Converting WebElement dollar to float
 		List<Float> storeDollarValue = new ArrayList<>();
@@ -243,7 +268,7 @@ public class BaseAmazonTestCases {
 		}
 		System.out.println("Price of item in Dollar --> Float ::\n++++++++++++++++++++++++++++++++++++++++++++");
 		for (int j = 0; j < storeDollarValue.size(); j++) {
-			System.out.println(storeDollarValue.get(j) + "\n.....");
+			System.out.println("$" + storeDollarValue.get(j) + "\n.....");
 		}
 		System.out.println("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
 
@@ -259,7 +284,7 @@ public class BaseAmazonTestCases {
 			}
 		}
 		for (int i = 0; i < storeCentValue.size(); i++) {
-			System.out.println(storeCentValue.get(i) + "\n.....");
+			System.out.println("$" + storeCentValue.get(i) + "\n.....");
 		}
 		System.out.println("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
 
@@ -281,15 +306,16 @@ public class BaseAmazonTestCases {
 			itemPrice.add(dollarValue + centValue);
 		}
 		float maxPrice = (float) Collections.max(itemPrice);
-		System.out.println("The highest price is ::\n" + maxPrice + "\n......");
+		System.out.println("The highest price is ::\n" + "$" + maxPrice + "\n......");
 
 		float minPrice = (float) Collections.min(itemPrice);
-		System.out.println("The lowest price is ::\n" + minPrice);
+		System.out.println("The lowest price is ::\n" + "$" + minPrice);
 		System.out.println(
 				"*****************************************************************************************************");
 	}
 
 	/** User views an item details */
+	@Test
 	public void viewItemDetails() {
 
 		wait = new WebDriverWait(driver, 5);
@@ -302,6 +328,7 @@ public class BaseAmazonTestCases {
 	}
 
 	/** User adds an item to cart */
+	@Test
 	public void addAnItemToCart() {
 		wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getAddToCartButton()));
@@ -313,16 +340,8 @@ public class BaseAmazonTestCases {
 				"*****************************************************************************************************");
 	}
 
-	/**
-	 * User clicks on cart button public void clickOnCart() {
-	 * 
-	 * color.drawBorder(obj.getProductCountResult(), "blue");
-	 * obj.getProductCountResult().click();
-	 * 
-	 * }
-	 */
-
 	/** User cancels warranty if it appears */
+	@Test
 	public void clickNoOnProtectionPlan() throws Throwable {
 		obj.getAddToCartButton().click();
 		Thread.sleep(2000);
@@ -339,29 +358,8 @@ public class BaseAmazonTestCases {
 				"*****************************************************************************************************");
 	}
 
-	/**
-	 * User clicks on Cart Button after adding a product public void
-	 * clickOnAnyCartButton() throws InterruptedException { Thread.sleep(2000); try
-	 * { wait = new WebDriverWait(driver, 5);
-	 * wait.until(ExpectedConditions.visibilityOf(obj.clickonCartButton()));
-	 * color.drawBorder(obj.clickonCartButton(), "magenta");
-	 * obj.clickonCartButton().click(); } catch (NoSuchElementException |
-	 * ElementNotVisibleException error) { System.out.println(error); } try {
-	 * Thread.sleep(3000); wait = new WebDriverWait(driver, 5);
-	 * wait.until(ExpectedConditions.visibilityOf(obj.getCartOnProtectionPlanPage()));
-	 * color.drawBorder(obj.getCartOnProtectionPlanPage(), "black");
-	 * obj.getCartOnProtectionPlanPage().click(); } catch (NoSuchElementException |
-	 * ElementNotVisibleException error2) { System.out.println(error2); }
-	 * obj.clickOnroceedToCheckOutAfteraddingFirstItem().click(); }
-	 * 
-	 * public void clickOnProceedToPayment() throws InterruptedException {
-	 * Thread.sleep(2000); try {
-	 * obj.clickOnroceedToCheckOutAfteraddingFirstItem().click(); } catch
-	 * (NoSuchElementException | ElementNotVisibleException error3) {
-	 * System.out.println("The proceed to payment button is not available"); } }
-	 */
-
 	/** User proceeds to payment */
+	@Test
 	public void proceedToCheckout() throws InterruptedException {
 		Thread.sleep(3000);
 		try {
@@ -381,6 +379,7 @@ public class BaseAmazonTestCases {
 	}
 
 	/** User changes payment type */
+	@Test
 	public void changePaymentType() throws InterruptedException {
 		wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getChangePaymentType()));
@@ -393,6 +392,7 @@ public class BaseAmazonTestCases {
 	}
 
 	/** User adds a new payment */
+	@Test
 	public void addNewPayment() throws InterruptedException {
 		wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.visibilityOf(obj.getAddNewBankAccount()));
@@ -418,6 +418,7 @@ public class BaseAmazonTestCases {
 		 * driver.switchTo().window(parentWindowHandler); // switch back to parent //
 		 * window
 		 */
+
 		try {
 			wait = new WebDriverWait(driver, 5);
 			wait.until(ExpectedConditions.visibilityOf(obj.getNameOnBank()));
@@ -451,10 +452,11 @@ public class BaseAmazonTestCases {
 				Thread.sleep(1000);
 
 				if (selectState.getText().equalsIgnoreCase("NY")) {
-					// color.drawBorder(selectState, "blue");
+					color.drawBorder(selectState, "blue");
 					selectState.click();
+					System.out.println(
+							"*****************************************************************************************************");
 					System.out.println("User selects Bank state");
-					System.out.println(selectState.getText());
 					System.out.println(
 							"*****************************************************************************************************");
 				}
@@ -463,9 +465,7 @@ public class BaseAmazonTestCases {
 			System.out.println("Unable to click from state dropdown");
 			System.out.println(
 					"*****************************************************************************************************");
-
 		}
-
 	}
 
 	/**
@@ -473,6 +473,7 @@ public class BaseAmazonTestCases {
 	 * 
 	 * @throws InterruptedException
 	 */
+	@Test
 	public void getConfirmationMessage() throws InterruptedException {
 		Thread.sleep(2000);
 
@@ -484,9 +485,9 @@ public class BaseAmazonTestCases {
 		System.out.println("Add this bank account is clicked");
 		System.out.println(
 				"*****************************************************************************************************");
-
-		Thread.sleep(3000);
 		try {
+			Thread.sleep(3000);
+			wait.until(ExpectedConditions.visibilityOf(obj.getPaymentFailureValidationMessage()));
 			color.drawBorder(obj.getPaymentFailureValidationMessage(), "red");
 			if (obj.getPaymentFailureValidationMessage().getText().equalsIgnoreCase("There was a problem")) {
 				System.out.println("Adding payment failed. Test Passed.");
@@ -520,19 +521,27 @@ public class BaseAmazonTestCases {
 	 * After Canceling Payment, user clicks on Items, return to cart and deletes the
 	 * item from the cart
 	 */
+	@Test
 	public void returnBackToCart() throws Throwable {
 		try {
+
+			driver.navigate().refresh();
+			Thread.sleep(3000);
 			wait = new WebDriverWait(driver, 5);
-			wait.until(ExpectedConditions.visibilityOf(obj.clickOnCheckoutWithItemsOnPaymentPage()));
+			wait.until(ExpectedConditions.visibilityOf(obj.clickOnItemsOnCheckoutPage()));
 			wait.until(ExpectedConditions.visibilityOf(obj.clickOnReturnToCartOnPaymentPage()));
 
-			color.drawBorder(obj.clickOnCheckoutWithItemsOnPaymentPage(), "red");
-			obj.clickOnCheckoutWithItemsOnPaymentPage().click();
+			color.drawBorder(obj.clickOnItemsOnCheckoutPage(), "red");
+			obj.clickOnItemsOnCheckoutPage().click();
 			System.out.println("User click on return to cart button");
 
 			color.drawBorder(obj.clickOnReturnToCartOnPaymentPage(), "blue");
 			obj.clickOnReturnToCartOnPaymentPage().click();
+
 		} catch (Exception e) {
+			System.out.println(e);
+			System.out.println(
+					"*****************************************************************************************************");
 			System.out.println("Unable to go back to cart");
 			System.out.println(
 					"*****************************************************************************************************");
@@ -540,6 +549,7 @@ public class BaseAmazonTestCases {
 	}
 
 	/** User tries to delete items from the cart */
+	@Test
 	public void deleteItemsFromCart() throws Throwable {
 		try {
 			wait.until(ExpectedConditions.visibilityOf(obj.clickOnDeleteFirstItemFromCart()));
@@ -556,6 +566,9 @@ public class BaseAmazonTestCases {
 			System.out.println(
 					"*****************************************************************************************************");
 		} catch (Exception e) {
+			System.out.println(e);
+			System.out.println(
+					"*****************************************************************************************************");
 			System.out.println("Unable to delete items from cart");
 			System.out.println(
 					"*****************************************************************************************************");
@@ -564,6 +577,7 @@ public class BaseAmazonTestCases {
 	}
 
 	/** User tries to go back to the landing page */
+	@Test
 	public void goBackToLandingPage() {
 
 		driver.navigate().to(obj.getURL());
@@ -576,6 +590,7 @@ public class BaseAmazonTestCases {
 	}
 
 	/** User closes the browser */
+	@Test
 	public void closeAndExitBrowser() {
 		driver.quit();
 		System.out.println("User closes the browser");

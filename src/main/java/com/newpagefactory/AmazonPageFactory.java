@@ -283,7 +283,9 @@ public class AmazonPageFactory {
 		return drLicenseNumber;
 	}
 
-	@FindBy(xpath = "(//*[contains(text(),'There was a problem')])[3]")
+	// @FindBy(xpath = "//*[@id='new-bank-error-box']/div/div/h4")
+	// @FindBy(xpath="(//*[contains(text(),'There was a problem')])[3]")
+	@FindBy(xpath = "(//*[contains(@class,'a-alert-heading')])[4]")
 	private WebElement paymentFailureValidationMessage;
 
 	public WebElement getPaymentFailureValidationMessage() {
@@ -313,36 +315,46 @@ public class AmazonPageFactory {
 		return stateList;
 	}
 
-	@FindBy(css = "#cancelAddBankAccountButtonId")
-	private WebElement cancelAddBankAccountButton;
-
-	public WebElement clickOnCancelAddBankAccountButton() {
-		return cancelAddBankAccountButton;
-	}
-
-	//@FindBy(xpath = "(//*[contains(@class,'a-button-inner')])[53]")
-	@FindBy(xpath="//*[contains(@id,'addBankAccountButtonId-announce')]/span/input")
-	//@FindBy(xpath="//*[contains(text(),'Add this checking account')]")
-	//@FindBy(xpath="(//span//*[contains(@class,'a-button-inner')]/span)[41]")
-	//@FindBy(css="#addBankAccountButtonId-announce")
+	// @FindBy(xpath = "(//*[contains(@class,'a-button-inner')])[53]")
+	// @FindBy(xpath="//*[contains(@id,'addBankAccountButtonId-announce')]/span/input")
+	// @FindBy(xpath="//*[contains(text(),'Add this checking account')]")
+	@FindBy(xpath = "(//*[contains(@class,'a-button-input')])[20]")
+	// @FindBy(css="#addBankAccountButtonId-announce")
 	private WebElement addThisCheckingAccount;
 
 	public WebElement getAddThisCheckingAccount() {
 		return addThisCheckingAccount;
 	}
 
-	@FindBy(xpath = "(//*[contains(@class,'clickable-heading')])[2]")
-	private WebElement checkoutWithItemsOnPaymentPage;
+	// @FindBy(xpath = "//*[@id="header"]/div/div[3]/h1/span/span/span/span")
+	// @FindBy(xpath = "(//span[contains(text(),'item')])[1]")
+	// @FindBy(css="#header > div > div.a-column.a-span8 > h1 > span > span > span >
+	// span")
+	// @FindBy(xpath="(//*[contains(@class,'a-declarative')])[5]")
+	// @FindBy(xpath="(//*[contains(text(),'item')])[2]")
+	@FindBy(xpath = "//div[@id='header']/div/div[@class='a-column a-span8']/h1/span/span/span/span")
 
-	public WebElement clickOnCheckoutWithItemsOnPaymentPage() {
-		return checkoutWithItemsOnPaymentPage;
+	private WebElement itemsOnCheckoutPage;
+
+	public WebElement clickOnItemsOnCheckoutPage() {
+		return itemsOnCheckoutPage;
 	}
 
-	@FindBy(xpath = "(//*[contains(@class,'a-button-inner')])[54]")
+	// @FindBy(css="#a-autoid-3-announce")
+	@FindBy(xpath = "//*[@id='a-autoid-3-announce']")
 	private WebElement returnToCartOnPaymentPage;
 
 	public WebElement clickOnReturnToCartOnPaymentPage() {
 		return returnToCartOnPaymentPage;
+	}
+
+	// @FindBy(css = "#cancelAddBankAccountButtonId")
+	// @FindBy(xpath="[@id="cancelAddBankAccountButtonId"]/span/input")
+	@FindBy(xpath = "(//*[contains(@class,'a-button-input')])[21]")
+	private WebElement cancelAddBankAccountButton;
+
+	public WebElement clickOnCancelAddBankAccountButton() {
+		return cancelAddBankAccountButton;
 	}
 
 	@FindBy(xpath = "(//*[contains(@value,'Delete')])[1]")
