@@ -88,7 +88,7 @@ public class BaseAmazonTestCases {
 	@Test
 	public void getLogin() {
 		color.drawBorder(obj.getMyAccount(), "green");
-		ScreenShots.captureScreenShot(driver, "LoginPage");
+		//ScreenShots.captureScreenShot(driver, "LoginPage");
 		obj.getMyAccount().click();
 		color.drawBorder(obj.getEmailAddress(), "red");
 		obj.getEmailAddress().sendKeys(obj.getUserName());

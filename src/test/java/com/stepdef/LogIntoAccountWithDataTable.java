@@ -17,9 +17,8 @@ import cucumber.api.java.en.When;
 
 public class LogIntoAccountWithDataTable {
 	/*
-	
 	WebDriver driver;
-	PageFactoryLoginXpath obj;
+	AmazonPageFactory obj;
 	Highlighter color;
 	
 	@Given("^User is able to launch any browser$")
@@ -42,7 +41,7 @@ public class LogIntoAccountWithDataTable {
 				System.setProperty("webdriver.chrome.driver", winDriverPath);
 			}
 			driver = new ChromeDriver();
-			obj = PageFactory.initElements(driver, PageFactoryLoginXpath.class);
+			obj = PageFactory.initElements(driver, AmazonPageFactory.class);
 			color = new Highlighter(driver);
 	    
 	}

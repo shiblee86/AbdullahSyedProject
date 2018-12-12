@@ -21,7 +21,7 @@ public class LoginTests {
 	}
 
 	@Test
-	public void verifyLogin() {
+	public void verifyLogin() throws Throwable {
 		obj.verifyLogin();
 	}
 
@@ -32,7 +32,7 @@ public class LoginTests {
 
 	@AfterTest
 	public void tearDown() {
-		obj.tearDown();
+		obj.closeAndExitBrowser();
 	}
 
 }

@@ -13,8 +13,9 @@ import cucumber.api.testng.AbstractTestNGCucumberTests;
 		"com.cucumber.listener.ExtentCucumberFormatter:target/Cucumber_Extents_report.html" },
 
 		features = {
-				"src/main/resources/LoginTestCaseScenario.feature, src/main/resources/AddingNewPaymentMethod.feature" }, glue = {
-						"com.stepdef" },
+				"src/main/resources/LoginTestCaseScenario.feature, src/main/resources/AddingNewPaymentMethod.feature" },
+
+		glue = { "com.stepdef" },
 
 		monochrome = true, dryRun = false, strict = true)
 public class TestNgRunner extends AbstractTestNGCucumberTests {// remove from extends if junit

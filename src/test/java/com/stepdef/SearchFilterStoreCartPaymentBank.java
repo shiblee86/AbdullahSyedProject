@@ -1,5 +1,6 @@
 package com.stepdef;
 
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -14,7 +15,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.newpagefactory.PageFactoryLoginXpath;
+import com.newpagefactory.AmazonPageFactory;
 import com.util.Highlighter;
 import com.util.ScreenShots;
 
@@ -26,7 +27,7 @@ import edu.emory.mathcs.backport.java.util.Collections;
 public class SearchFilterStoreCartPaymentBank {
 
 	WebDriver driver;
-	PageFactoryLoginXpath obj;
+	AmazonPageFactory obj;
 	Highlighter color;
 	List<String> productList = new ArrayList<>();
 	List<String> pricePerItemTable = new ArrayList<>();
@@ -54,7 +55,7 @@ public class SearchFilterStoreCartPaymentBank {
 			System.setProperty("webdriver.chrome.driver", winDriverPath);
 		}
 		driver = new ChromeDriver();
-		obj = PageFactory.initElements(driver, PageFactoryLoginXpath.class);
+		obj = PageFactory.initElements(driver, AmazonPageFactory.class);
 		color = new Highlighter(driver);
 		driver.manage().window().fullscreen();
 	}
