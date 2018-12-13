@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.ElementNotVisibleException;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -88,7 +89,7 @@ public class BaseAmazonTestCases {
 	@Test
 	public void getLogin() {
 		color.drawBorder(obj.getMyAccount(), "green");
-		//ScreenShots.captureScreenShot(driver, "LoginPage");
+		// ScreenShots.captureScreenShot(driver, "LoginPage");
 		obj.getMyAccount().click();
 		color.drawBorder(obj.getEmailAddress(), "red");
 		obj.getEmailAddress().sendKeys(obj.getUserName());
@@ -509,9 +510,13 @@ public class BaseAmazonTestCases {
 		// driver.navigate().to(obj.getURL());
 
 		Thread.sleep(2000);
+
 		wait.until(ExpectedConditions.visibilityOf(obj.clickOnCancelAddBankAccountButton()));
 		color.drawBorder(obj.clickOnCancelAddBankAccountButton(), "black");
-		obj.clickOnCancelAddBankAccountButton().click();
+		JavascriptExecutor executor = (JavascriptExecutor) driver;
+		executor.executeScript("arguments[0].click();", obj.clickOnCancelAddBankAccountButton());
+		color.drawBorder(obj.clickOnCancelAddBankAccountButton(), "black");
+		// obj.clickOnCancelAddBankAccountButton().click();
 		System.out.println("User clicks on cancel");
 		System.out.println(
 				"*****************************************************************************************************");
@@ -528,11 +533,14 @@ public class BaseAmazonTestCases {
 			driver.navigate().refresh();
 			Thread.sleep(3000);
 			wait = new WebDriverWait(driver, 5);
+			
 			wait.until(ExpectedConditions.visibilityOf(obj.clickOnItemsOnCheckoutPage()));
 			wait.until(ExpectedConditions.visibilityOf(obj.clickOnReturnToCartOnPaymentPage()));
 
 			color.drawBorder(obj.clickOnItemsOnCheckoutPage(), "red");
-			obj.clickOnItemsOnCheckoutPage().click();
+			JavascriptExecutor executor = (JavascriptExecutor)driver;
+			executor.executeScript("arguments[0].click();", obj.clickOnItemsOnCheckoutPage());
+			//obj.clickOnItemsOnCheckoutPage().click();
 			System.out.println("User click on return to cart button");
 
 			color.drawBorder(obj.clickOnReturnToCartOnPaymentPage(), "blue");

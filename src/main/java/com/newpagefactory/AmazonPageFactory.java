@@ -328,12 +328,11 @@ public class AmazonPageFactory {
 
 	// @FindBy(xpath = "//*[@id="header"]/div/div[3]/h1/span/span/span/span")
 	// @FindBy(xpath = "(//span[contains(text(),'item')])[1]")
-	// @FindBy(css="#header > div > div.a-column.a-span8 > h1 > span > span > span >
-	// span")
 	// @FindBy(xpath="(//*[contains(@class,'a-declarative')])[5]")
 	// @FindBy(xpath="(//*[contains(text(),'item')])[2]")
-	@FindBy(xpath = "//div[@id='header']/div/div[@class='a-column a-span8']/h1/span/span/span/span")
-
+	// @FindBy(xpath = "//div[@id='header']/div/div[@class='a-column
+	// a-span8']/h1/span/span/span/span[@class='a-color-link clickable-heading']")
+	@FindBy(xpath = "//div[@id='header']/div/div[contains(@class,'a-column')]/h1/span/span/span/span[contains(text(),'item')]")
 	private WebElement itemsOnCheckoutPage;
 
 	public WebElement clickOnItemsOnCheckoutPage() {
